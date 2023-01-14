@@ -14,6 +14,7 @@ var DB *gorm.DB
 
 // CreateDBLink 创建数据库连接
 func CreateDBLink() {
+
 	// 判断数据库的使用类型 sqlite and mysql
 	if viper.InConfig("persistence.mysql.addr") {
 		// 使用mysql
@@ -24,6 +25,7 @@ func CreateDBLink() {
 		logger.Log.Info("\t连接数据库" + color.New(color.FgBlue).Add(color.Bold).Sprint(":sqlite"))
 		DB = LinkSqlLite("./linkTree.sqlite")
 	}
+
 }
 
 func LinkMySql() *gorm.DB {

@@ -1,41 +1,38 @@
 package service
 
 import (
+	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
+	"linktree_server/modules/db"
+	"linktree_server/modules/db/dao"
 	"linktree_server/modules/db/model"
 )
 
-type UserRegisterInfo struct {
-	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
-	Password string `form:"password" json:"password" binding:"required,min=8,max=40"`
-	Time     string `form:"time" json:"time" binding:"required,min=8,max=40"`
+var UserService = userService{}
+
+// userService 业务层
+type userService struct {
 }
 
-// UserLoginInfo 用户登录后的输出输出
-type UserLoginInfo struct {
-	UserInfo model.User
-	Token    string `form:"token" json:"token"`
+func (s userService) GetUser(queryMap map[string][]string) []model.User {
+	if len(queryMap) == 0 {
+		return dao.User.DB(db.DB).All()
+	}
+	id := queryMap["id"]
+	return dao.User.DB(db.DB).Find(model.User{UserID: uuid.FromStringOrNil(id[0])})
 }
 
-func JudgeToken(username string, token string) bool {
+// AddUser 注册
+func (s userService) AddUser(c *gin.Context) {
 
-	return true
 }
 
-//func Login(userName string, passWord string) (bool, *code.Co, UserLoginInfo) {
-//	//boo, msg, user := sqls.FindUserInNameOrPassword(userName, passWord)
-//	//return boo, msg, UserLoginInfo{
-//	//	UserInfo: user,
-//	//	Token:    "",
-//	//}
-//}
+// UpdateUser 注册
+func (s userService) UpdateUser(c *gin.Context) {
 
-// Register 注册
-//func Register(param control.UserRegisterParam) string {
-//	DB.AddUser(&DB.User{
-//		ID:         uuid.NewV4(),
-//		Name:       param.UserName,
-//		Tel:        param.Tel,
-//		CreateTime: time.Now(),
-//	})
-//	return "ok"
-//}
+}
+
+// DeleteUser 注册
+func (s userService) DeleteUser(c *gin.Context) {
+
+}

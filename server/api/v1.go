@@ -9,22 +9,13 @@ func InjectV1(server *gin.Engine) {
 	// V1的api
 	V1 := server.Group("/v1")
 
-	V1.GET("/user", control.GetUser)
-	V1.POST("/user")
-	V1.PUT("/user")
-	V1.DELETE("/user")
+	// user
+	control.InitUser(V1)
 
 	// sys /*系统状态的获取和操作
 	sys := V1.Group("/sys")
 	{
 		sys.GET("/getSysInfo", control.GetSysInfo)
-		sys.GET("/getMemInfo", control.GetMemInfo)
-		sys.GET("/getDiskInfo", control.GetDiskInfo)
-		sys.GET("/getHostInfo", control.GetHostInfo)
-		sys.GET("/getNetInfo", control.GetNetInfo)
-		//sys.GET("/poolList", func(context *gin.Context) {
-		//	result.APIResponse(context, code.OK, sock.WsPool.GetPoolList())
-		//})
 	}
 	// file /*上传文件
 	file := V1.Group("/file")

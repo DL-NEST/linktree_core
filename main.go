@@ -10,8 +10,6 @@ import (
 	"linktree_server/utils/logger"
 )
 
-//go:generate go env -w GO111MODULE=on
-//go:generate go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
 //go:generate swag init
 
 func init() {
@@ -37,7 +35,6 @@ func main() {
 }
 
 func serverStart() {
-
 	service := server.InitRouter()
 	port := viper.GetString("server.port")
 	// 启动服务
