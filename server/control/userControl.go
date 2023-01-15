@@ -2,9 +2,9 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/result"
-	"linktree_server/server/result/code"
 	"linktree_server/server/service"
+	"linktree_server/utils/result"
+	"linktree_server/utils/result/code"
 )
 
 func InitUser(router *gin.RouterGroup) {
@@ -16,7 +16,11 @@ func InitUser(router *gin.RouterGroup) {
 
 func GetUser(ctx *gin.Context) {
 	queryMap := ctx.Request.URL.Query()
-	result.APIResponse(ctx, code.OK, service.UserService.GetUser(queryMap))
+	err, data := service.UserService.GetUser(queryMap)
+	if err != nil {
+		result.APIResponse(ctx, code.OK, data)
+	}
+	result.APIResponse(ctx, code.OK, data)
 }
 
 // AddUser 注册

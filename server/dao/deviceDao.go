@@ -10,10 +10,10 @@ import (
 // IDeviceDao interface
 type IDeviceDao interface {
 	DB(option ...DeviceOpt) IDeviceDao
-	All() []model.Device
-	Find(v model.Device) []model.Device
-	Create(v model.Device) model.Device
-	Update(pKey uuid.UUID, v model.Device) model.Device
+	All() (error, []model.Device)
+	Find(v model.Device) (error, []model.Device)
+	Create(v model.Device) (error, model.Device)
+	Update(pKey uuid.UUID, v model.Device) (error, model.Device)
 	Delete(Key uuid.UUID) error
 }
 
@@ -45,24 +45,24 @@ func (do *DeviceDao) DB(option ...DeviceOpt) IDeviceDao {
 	do.Db = db.DB
 	return do
 }
-func (do *DeviceDao) All() []model.Device {
+func (do *DeviceDao) All() (error, []model.Device) {
 	var list []model.Device
-	do.Db.Find(&list)
-	return list
+	err := do.Db.Find(&list).Error
+	return err, list
 }
-func (do *DeviceDao) Find(v model.Device) []model.Device {
+func (do *DeviceDao) Find(v model.Device) (error, []model.Device) {
 	var list []model.Device
-	do.Db.Where(&v).Find(&list)
-	return list
+	err := do.Db.Where(&v).Find(&list).Error
+	return err, list
 }
-func (do *DeviceDao) Create(v model.Device) model.Device {
-	do.Db.Create(&v)
-	return v
+func (do *DeviceDao) Create(v model.Device) (error, model.Device) {
+	err := do.Db.Create(&v).Error
+	return err, v
 }
-func (do *DeviceDao) Update(pKey uuid.UUID, v model.Device) model.Device {
+func (do *DeviceDao) Update(pKey uuid.UUID, v model.Device) (error, model.Device) {
 	var Device model.Device
-	do.Db.First(&Device, pKey).Updates(&v)
-	return v
+	err := do.Db.First(&Device, pKey).Updates(&v).Error
+	return err, v
 }
 func (do *DeviceDao) Delete(pKey uuid.UUID) error {
 	return do.Db.Delete(model.Device{DeviceID: pKey}).Error

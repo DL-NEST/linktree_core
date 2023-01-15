@@ -2,8 +2,7 @@ package result
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/result/code"
-	"net/http"
+	"linktree_server/utils/result/code"
 )
 
 // Response ...
@@ -17,8 +16,8 @@ type Response struct {
 func APIResponse(Ctx *gin.Context, start *code.Co, data interface{}) {
 	httpCo, co, message := code.Decode(start)
 
-	if start == code.OK {
-		Ctx.JSON(http.StatusOK, Response{
+	if start == code.OK || start == code.OKorCreated {
+		Ctx.JSON(httpCo, Response{
 			Code: co,
 			Msg:  message,
 			Data: data,

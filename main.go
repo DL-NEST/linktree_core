@@ -6,6 +6,7 @@ import (
 	"linktree_server/commands"
 	"linktree_server/modules/db"
 	"linktree_server/modules/emqx"
+	"linktree_server/modules/redis"
 	"linktree_server/server"
 	"linktree_server/utils/logger"
 )
@@ -19,12 +20,15 @@ func init() {
 func main() {
 	switch commands.Mode {
 	case "start":
+		// TODO: 判断是否第一次登录，跳转到配置页面
 		bootstrap.InitApp()
 		bootstrap.InitConfig()
-
-		emqx.LinkMqttBroker()
+		// model
 		db.CreateDBLink()
-
+		redis.InitRedis()
+		// mq
+		emqx.LinkMqttBroker()
+		// init over
 		bootstrap.OutInfo()
 		serverStart()
 		break

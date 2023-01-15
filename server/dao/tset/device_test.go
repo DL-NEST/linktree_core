@@ -64,13 +64,18 @@ func TestDeviceCurd(t *testing.T) {
 		Db: db,
 	}
 	// 添加
-	t.Logf("添加=======>%+v", dao.Device.DB(DeviceDao).Create(DeviceOld))
+	err, c := dao.Device.DB(DeviceDao).Create(DeviceOld)
+	t.Logf("添加=======>%+v", c)
 	// 添加
-	t.Logf("查询所有=======>%+v", dao.Device.DB(DeviceDao).All())
+	err, a := dao.Device.DB(DeviceDao).All()
+	t.Logf("查询所有=======>%+v", a)
 	// 查询一个对象
-	t.Logf("查询一个对象=======>%+v", dao.Device.DB(DeviceDao).Find(model.Device{DeviceName: "智能设备"}))
+	err, f := dao.Device.DB(DeviceDao).Find(model.Device{DeviceName: "智能设备"})
+	t.Logf("查询一个对象=======>%+v", f)
 	// 更新
-	t.Logf("更新=======>%+v", dao.Device.DB(DeviceDao).Update(id, DeviceNew))
+	err, u := dao.Device.DB(DeviceDao).Update(id, DeviceNew)
+	t.Logf("更新=======>%+v", u)
 	// 删除
-	t.Logf("删除=======>%+v", dao.Device.DB(DeviceDao).Delete(id))
+	err = dao.Device.DB(DeviceDao).Delete(id)
+	t.Logf("删除=======>%+v", err)
 }

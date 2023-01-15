@@ -47,13 +47,18 @@ func TestUserCurd(t *testing.T) {
 		Db: db,
 	}
 	// 添加
-	t.Logf("添加=======>%+v", dao.User.DB(userDao).Create(userOld))
+	err, c := dao.User.DB(userDao).Create(userOld)
+	t.Logf("添加=======>%+v", c)
 	// 添加
-	t.Logf("查询所有=======>%+v", dao.User.DB(userDao).All())
+	err, a := dao.User.DB(userDao).All()
+	t.Logf("查询所有=======>%+v", a)
 	// 查询一个对象
-	t.Logf("查询一个对象=======>%+v", dao.User.DB(userDao).Find(model.User{UserName: "test"}))
+	err, f := dao.User.DB(userDao).Find(model.User{UserName: "test"})
+	t.Logf("查询一个对象=======>%+v", f)
 	// 更新
-	t.Logf("更新=======>%+v", dao.User.DB(userDao).Update(id, userNew))
+	err, u := dao.User.DB(userDao).Update(id, userNew)
+	t.Logf("更新=======>%+v", u)
 	// 删除
-	t.Logf("删除=======>%+v", dao.User.DB(userDao).Delete(id))
+	err = dao.User.DB(userDao).Delete(id)
+	t.Logf("删除=======>%+v", err)
 }

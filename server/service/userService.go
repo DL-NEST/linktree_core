@@ -13,7 +13,7 @@ var UserService = userService{}
 type userService struct {
 }
 
-func (s userService) GetUser(queryMap map[string][]string) []model.User {
+func (s userService) GetUser(queryMap map[string][]string) (error, []model.User) {
 	if len(queryMap) == 0 {
 		return dao.User.DB().All()
 	}

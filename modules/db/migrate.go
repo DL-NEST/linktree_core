@@ -26,11 +26,4 @@ func migration() {
 		logger.Log.Error("用户表迁徙失败")
 		return
 	}
-
-	err = DB.AutoMigrate(&model.Test{})
-	if err != nil {
-		logger.Log.Error("用户表迁徙失败")
-		return
-	}
-
 }

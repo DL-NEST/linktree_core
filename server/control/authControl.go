@@ -2,8 +2,8 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/result"
-	"linktree_server/server/result/code"
+	"linktree_server/utils/result"
+	"linktree_server/utils/result/code"
 )
 
 // UserLoginParam 登录接收参数

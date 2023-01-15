@@ -10,10 +10,10 @@ import (
 // IUserDao interface
 type IUserDao interface {
 	DB(UserOpt ...UserOpt) IUserDao
-	All() []model.User
-	Find(v model.User) []model.User
-	Create(v model.User) model.User
-	Update(pKey uuid.UUID, v model.User) model.User
+	All() (error, []model.User)
+	Find(v model.User) (error, []model.User)
+	Create(v model.User) (error, model.User)
+	Update(pKey uuid.UUID, v model.User) (error, model.User)
 	Delete(Key uuid.UUID) error
 }
 
@@ -45,24 +45,24 @@ func (do *UserDao) DB(UserOpt ...UserOpt) IUserDao {
 	do.Db = db.DB
 	return do
 }
-func (do *UserDao) All() []model.User {
+func (do *UserDao) All() (error, []model.User) {
 	var list []model.User
-	do.Db.Find(&list)
-	return list
+	err := do.Db.Find(&list).Error
+	return err, list
 }
-func (do *UserDao) Find(v model.User) []model.User {
+func (do *UserDao) Find(v model.User) (error, []model.User) {
 	var list []model.User
-	do.Db.Where(&v).Find(&list)
-	return list
+	err := do.Db.Where(&v).Find(&list).Error
+	return err, list
 }
-func (do *UserDao) Create(v model.User) model.User {
-	do.Db.Create(&v)
-	return v
+func (do *UserDao) Create(v model.User) (error, model.User) {
+	err := do.Db.Create(&v).Error
+	return err, v
 }
-func (do *UserDao) Update(pKey uuid.UUID, v model.User) model.User {
-	var user model.User
-	do.Db.First(&user, pKey).Updates(&v)
-	return v
+func (do *UserDao) Update(pKey uuid.UUID, v model.User) (error, model.User) {
+	var User model.User
+	err := do.Db.First(&User, pKey).Updates(&v).Error
+	return err, v
 }
 func (do *UserDao) Delete(pKey uuid.UUID) error {
 	return do.Db.Delete(model.User{UserID: pKey}).Error

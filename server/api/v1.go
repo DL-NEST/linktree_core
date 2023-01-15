@@ -3,11 +3,12 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_server/server/control"
+	"linktree_server/server/middleware"
 )
 
 func InjectV1(server *gin.Engine) {
 	// V1的api
-	V1 := server.Group("/v1")
+	V1 := server.Group("/v1", middleware.Auth())
 
 	// user
 	control.InitUser(V1)
