@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	sock "linktree_server/server/socket"
-	"linktree_server/server/socket/wsPool"
+	sock "linktree_server/modules/socket"
+	"linktree_server/modules/socket/wsPool"
 	"net/http"
 )
 

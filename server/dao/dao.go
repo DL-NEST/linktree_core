@@ -1,7 +1,8 @@
 package dao
 
 var (
-	User UserDao
+	User   UserDao
+	Device DeviceDao
 )
 
 //// BaseDao 定义一个接口

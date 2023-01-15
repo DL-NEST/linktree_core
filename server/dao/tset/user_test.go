@@ -4,8 +4,8 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_server/modules/db/dao"
 	"linktree_server/modules/db/model"
+	"linktree_server/server/dao"
 	"testing"
 	"time"
 )
@@ -43,14 +43,17 @@ func TestUserCurd(t *testing.T) {
 			"admin", "root",
 		},
 	}
+	userDao := &dao.UserDao{
+		Db: db,
+	}
 	// 添加
-	t.Logf("添加=======>%+v", dao.User.DB(db).Create(userOld))
+	t.Logf("添加=======>%+v", dao.User.DB(userDao).Create(userOld))
 	// 添加
-	t.Logf("查询所有=======>%+v", dao.User.DB(db).All())
+	t.Logf("查询所有=======>%+v", dao.User.DB(userDao).All())
 	// 查询一个对象
-	t.Logf("查询一个对象=======>%+v", dao.User.DB(db).Find(model.User{UserName: "test"}))
+	t.Logf("查询一个对象=======>%+v", dao.User.DB(userDao).Find(model.User{UserName: "test"}))
 	// 更新
-	t.Logf("更新=======>%+v", dao.User.DB(db).Update(id, userNew))
+	t.Logf("更新=======>%+v", dao.User.DB(userDao).Update(id, userNew))
 	// 删除
-	t.Logf("删除=======>%+v", dao.User.DB(db).Delete(id))
+	t.Logf("删除=======>%+v", dao.User.DB(userDao).Delete(id))
 }

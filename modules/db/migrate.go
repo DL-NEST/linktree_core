@@ -33,21 +33,4 @@ func migration() {
 		return
 	}
 
-	//err1 := AddUser(&User{
-	//	UserID:     uuid.NewV4(),
-	//	UserName:   "root",
-	//	Tel:        234252,
-	//	Password:   "qq2002123",
-	//	CreateTime: time.Now(),
-	//	HeadUri:    "",
-	//	Role: RoleArray{
-	//		"ssaf", "asef",
-	//	},
-	//})
-	//if err1 != nil {
-	//	return
-	//}
-
-	//logger.Log.Info(FindDeviceInName("台灯").DeviceSubject.DeviceState[0].AttribName)
-
 }
