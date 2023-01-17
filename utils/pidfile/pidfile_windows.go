@@ -1,25 +1,18 @@
 package pidfile
 
 import (
-	"golang.org/x/sys/windows"
-)
-
-const (
-	processQueryLimitedInformation = 0x1000
-
-	stillActive = 259
+	"os"
+	"syscall"
 )
 
 func processExists(pid int) bool {
-	h, err := windows.OpenProcess(processQueryLimitedInformation, false, uint32(pid))
+	proc, err := os.FindProcess(pid)
 	if err != nil {
-		return false
+		return true
 	}
-	var c uint32
-	err = windows.GetExitCodeProcess(h, &c)
-	windows.Close(h)
+	err = proc.Signal(syscall.SIGKILL) // 杀死进程
 	if err != nil {
-		return c == stillActive
+		return true
 	}
-	return true
+	return false
 }

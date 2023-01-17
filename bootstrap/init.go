@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"linktree_core/commands"
 	"linktree_core/utils/logger"
+	"linktree_core/utils/pidfile"
 	"os"
 )
 
@@ -34,12 +35,15 @@ func InitApp() {
 	fmt.Printf("\u001B[;32m" + "===========================================================================================\u001B[0m\n\n")
 	logger.Log.Infof("[\u001B[;34m -conf \u001B[0m%v,\u001B[;34m -log \u001B[0m %v]", commands.ConfigPath, commands.LogPath)
 	logger.Log.Infof("pid:%v", os.Getpid())
+	if _, err := pidfile.New("./pid"); err != nil {
+		panic(err)
+	}
 }
 
 func OutInfo() string {
 	port := viper.GetString("server.port")
 	logger.Log.Info("监听服务端口:" + port)
 	logger.Log.Info("服务启动成功: http://localhost:" + port)
-	logger.Log.Info("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")
+	logger.Log.Debug("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")
 	return port
 }

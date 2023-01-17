@@ -20,7 +20,7 @@ func init() {
 func main() {
 	switch commands.Mode {
 	case "start":
-		// TODO: 判断是否第一次登录，跳转到配置页面
+		// TODO: 判断是否第一次登录，跳转到初始化配置页面
 		bootstrap.InitApp()
 		bootstrap.InitConfig()
 		// model
@@ -33,7 +33,10 @@ func main() {
 		serverStart()
 		break
 	case "update":
-
+		logger.Log.Debug("update")
+		break
+	case "reboot":
+		logger.Log.Debug("reboot")
 		break
 	}
 }

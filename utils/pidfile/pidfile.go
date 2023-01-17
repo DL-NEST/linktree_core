@@ -5,7 +5,6 @@ package pidfile
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -17,10 +16,11 @@ type PIDFile struct {
 	path string
 }
 
+// issues:用户手动修改pid文件程序就会报错
 func checkPIDFileAlreadyExists(path string) error {
-	if pidByte, err := ioutil.ReadFile(path); err == nil {
+	if pidByte, err := os.ReadFile(path); err == nil {
 		pidString := strings.TrimSpace(string(pidByte))
-		if pid, err := strconv.Atoi(pidString); err == nil {
+		if pid, err1 := strconv.Atoi(pidString); err1 == nil {
 			if processExists(pid) {
 				return fmt.Errorf("pid file found, ensure gmqtt is not running or delete %s", path)
 			}
@@ -32,16 +32,14 @@ func checkPIDFileAlreadyExists(path string) error {
 // New creates a PIDfile using the specified path.
 func New(path string) (*PIDFile, error) {
 	if err := checkPIDFileAlreadyExists(path); err != nil {
-		return nil, err
+		panic(err)
 	}
-	// Note MkdirAll returns nil if a directory already exists
 	if err := os.MkdirAll(filepath.Dir(path), os.FileMode(0755)); err != nil {
 		return nil, err
 	}
-	if err := ioutil.WriteFile(path, []byte(fmt.Sprintf("%d", os.Getpid())), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(fmt.Sprintf("%d", os.Getpid())), 0644); err != nil {
 		return nil, err
 	}
-
 	return &PIDFile{path: path}, nil
 }
 
