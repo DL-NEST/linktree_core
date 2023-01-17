@@ -4,7 +4,7 @@ import (
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/spf13/viper"
-	"linktree_server/utils/logger"
+	"linktree_core/utils/logger"
 	"time"
 )
 

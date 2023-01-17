@@ -3,8 +3,8 @@ package service
 import (
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
-	"linktree_server/modules/db/model"
-	"linktree_server/server/dao"
+	"linktree_core/modules/db/model"
+	"linktree_core/server/dao"
 )
 
 var UserService = userService{}

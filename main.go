@@ -2,13 +2,13 @@ package main
 
 import (
 	"github.com/spf13/viper"
-	"linktree_server/bootstrap"
-	"linktree_server/commands"
-	"linktree_server/modules/db"
-	"linktree_server/modules/emqx"
-	"linktree_server/modules/redis"
-	"linktree_server/server"
-	"linktree_server/utils/logger"
+	"linktree_core/bootstrap"
+	"linktree_core/commands"
+	"linktree_core/modules/db"
+	"linktree_core/modules/emqx"
+	"linktree_core/modules/redis"
+	"linktree_core/server"
+	"linktree_core/utils/logger"
 )
 
 //go:generate swag init

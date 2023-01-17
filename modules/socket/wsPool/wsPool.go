@@ -3,7 +3,7 @@ package wsPool
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	"linktree_server/utils/logger"
+	"linktree_core/utils/logger"
 	"log"
 )
 

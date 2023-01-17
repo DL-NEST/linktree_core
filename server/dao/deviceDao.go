@@ -3,8 +3,8 @@ package dao
 import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
-	"linktree_server/modules/db"
-	"linktree_server/modules/db/model"
+	"linktree_core/modules/db"
+	"linktree_core/modules/db/model"
 )
 
 // IDeviceDao interface

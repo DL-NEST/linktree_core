@@ -2,7 +2,7 @@ package result
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/utils/result/code"
+	"linktree_core/utils/result/code"
 )
 
 // Response ...

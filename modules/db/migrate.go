@@ -1,8 +1,8 @@
 package db
 
 import (
-	"linktree_server/modules/db/model"
-	"linktree_server/utils/logger"
+	"linktree_core/modules/db/model"
+	"linktree_core/utils/logger"
 )
 
 //// 是否需要迁移

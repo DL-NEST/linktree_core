@@ -3,7 +3,7 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"linktree_server/utils/logger"
+	"linktree_core/utils/logger"
 	"time"
 )
 

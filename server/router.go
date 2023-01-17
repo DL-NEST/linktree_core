@@ -2,10 +2,10 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/api"
-	"linktree_server/server/middleware"
-	"linktree_server/utils/result"
-	"linktree_server/utils/result/code"
+	"linktree_core/server/api"
+	"linktree_core/server/middleware"
+	"linktree_core/utils/result"
+	"linktree_core/utils/result/code"
 )
 
 func InitRouter() *gin.Engine {

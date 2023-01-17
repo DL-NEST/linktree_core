@@ -2,10 +2,10 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/control"
-	"linktree_server/utils/logger"
-	"linktree_server/utils/result"
-	"linktree_server/utils/result/code"
+	"linktree_core/server/control"
+	"linktree_core/utils/logger"
+	"linktree_core/utils/result"
+	"linktree_core/utils/result/code"
 )
 
 // Fixed 不需要验证就能的请求的api

@@ -7,7 +7,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_server/utils/logger"
+	"linktree_core/utils/logger"
 )
 
 var DB *gorm.DB

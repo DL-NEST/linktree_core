@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"github.com/spf13/viper"
-	"linktree_server/commands"
-	"linktree_server/utils/logger"
+	"linktree_core/commands"
+	"linktree_core/utils/logger"
 )
 
 // InitConfig 读取配置文件

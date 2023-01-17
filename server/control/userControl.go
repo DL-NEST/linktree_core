@@ -2,9 +2,9 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/service"
-	"linktree_server/utils/result"
-	"linktree_server/utils/result/code"
+	"linktree_core/server/service"
+	"linktree_core/utils/result"
+	"linktree_core/utils/result/code"
 )
 
 func InitUser(router *gin.RouterGroup) {

@@ -2,7 +2,7 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/modules/db/model"
+	"linktree_core/modules/db/model"
 )
 
 /*

@@ -1,6 +1,6 @@
 package service
 
-import "linktree_server/modules/db/model"
+import "linktree_core/modules/db/model"
 
 type UserRegisterInfo struct {
 	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`

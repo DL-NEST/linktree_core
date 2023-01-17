@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_server/server/control"
-	"linktree_server/server/middleware"
+	"linktree_core/server/control"
+	"linktree_core/server/middleware"
 )
 
 func InjectV1(server *gin.Engine) {

@@ -4,8 +4,8 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_server/modules/db/model"
-	"linktree_server/server/dao"
+	"linktree_core/modules/db/model"
+	"linktree_core/server/dao"
 	"testing"
 )
 
