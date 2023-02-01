@@ -3,7 +3,7 @@ package model
 import (
 	"database/sql/driver"
 	"encoding/json"
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"time"
 )
 

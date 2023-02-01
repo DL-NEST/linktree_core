@@ -4,7 +4,7 @@ import (
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/spf13/viper"
-	"linktree_core/utils/logger"
+	"linktree_core/utils/glog"
 	"time"
 )
 
@@ -64,7 +64,7 @@ func CreateMqttClient(clientOpts ClientOpts) mqtt.Client {
 	// 如果连接失败，则终止程序
 	err := client.Connect()
 	if err.WaitTimeout(3*time.Second) && err.Error() != nil {
-		logger.Log.Fatal(err.Error())
+		glog.Log.Fatal(err.Error())
 	}
 	// 没有错误返回连接句柄
 	return client
@@ -90,6 +90,7 @@ func Subscribe(mqttClient mqtt.Client, topic string, qos int) {
 	//	name: topic,
 	//	qos:  qos,
 	//}
+	glog.Log.Debug("SC")
 	mqttClient.Subscribe(topic, byte(qos), MessageHandler)
 }
 

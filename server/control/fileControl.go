@@ -3,15 +3,21 @@ package control
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"linktree_core/utils/logger"
+	"linktree_core/utils/glog"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )
 
+func InitFile(router *gin.RouterGroup) {
+	file := router.Group("/file")
+	file.POST("/upload", UploadOne)
+	file.POST("/uploadList", UploadList)
+}
+
 func UploadOne(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	toFilePath := fmt.Sprintf("file/%v", file.Filename)
-	logger.Log.Infof(file.Filename+"-to-", toFilePath)
+	glog.Log.Infof(file.Filename+"-to-", toFilePath)
 	// 上传文件至指定目录
 	err := c.SaveUploadedFile(file, toFilePath)
 	if err != nil {

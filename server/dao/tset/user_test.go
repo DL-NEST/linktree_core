@@ -1,10 +1,10 @@
 package tset
 
 import (
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_core/modules/db/model"
+	"linktree_core/modules/database/db/model"
 	"linktree_core/server/dao"
 	"testing"
 	"time"
@@ -20,7 +20,7 @@ func TestUserCurd(t *testing.T) {
 	if err1 != nil {
 		return
 	}
-	id := uuid.NewV4()
+	id := uuid.New()
 	userOld := model.User{
 		UserID:     id,
 		UserName:   "test",

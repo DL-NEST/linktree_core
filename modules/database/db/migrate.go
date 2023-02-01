@@ -1,8 +1,8 @@
 package db
 
 import (
-	"linktree_core/modules/db/model"
-	"linktree_core/utils/logger"
+	model2 "linktree_core/modules/database/db/model"
+	"linktree_core/utils/glog"
 )
 
 //// 是否需要迁移
@@ -12,18 +12,18 @@ import (
 
 func migration() {
 
-	logger.Log.Info("开始初始化数据库")
+	glog.Log.Info("开始初始化数据库")
 	// 自动迁移(表的创建)
 	// 用户表
-	err := DB.AutoMigrate(&model.Device{})
+	err := DB.AutoMigrate(&model2.Device{})
 	if err != nil {
-		logger.Log.Error("用户表迁徙失败")
+		glog.Log.Error("用户表迁徙失败")
 		return
 	}
 
-	err = DB.AutoMigrate(&model.User{})
+	err = DB.AutoMigrate(&model2.User{})
 	if err != nil {
-		logger.Log.Error("用户表迁徙失败")
+		glog.Log.Error("用户表迁徙失败")
 		return
 	}
 }

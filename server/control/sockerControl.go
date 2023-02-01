@@ -19,9 +19,10 @@ func checkOrigin(re *http.Request) bool {
 }
 
 // UpgradeSocket 升级请求为websocket
-func UpgradeSocket(c *gin.Context) {
+func UpgradeSocket(ctx *gin.Context) {
 	// 获取请求的Token
-	token := c.GetHeader("Token")
+	token := ctx.Request.URL.Query().Get("token")
+	ctx.ContentType()
 	ws := new(WsServer)
 	ws.upgrade = &websocket.Upgrader{
 		ReadBufferSize:  2048,
@@ -29,7 +30,7 @@ func UpgradeSocket(c *gin.Context) {
 		CheckOrigin:     checkOrigin,
 	}
 	// 升级为socket
-	Conn, err := ws.upgrade.Upgrade(c.Writer, c.Request, nil)
+	Conn, err := ws.upgrade.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
 		fmt.Printf("%s连接失败\n", token)
 		return

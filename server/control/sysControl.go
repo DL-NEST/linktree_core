@@ -7,8 +7,12 @@ import (
 	"linktree_core/utils/result/code"
 )
 
-// SysServer /* 获取系统信息
+func InitSys(router *gin.RouterGroup) {
+	sys := router.Group("/sys")
+	sys.GET("/getSysInfo", GetSysInfo)
+}
 
+// GetSysInfo 获取系统信息
 func GetSysInfo(c *gin.Context) {
 	result.APIResponse(c, code.OK, service.GetSysInfo())
 }

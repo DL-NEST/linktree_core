@@ -1,6 +1,10 @@
 package service
 
-import "linktree_core/modules/db/model"
+import (
+	"errors"
+	"linktree_core/modules/database/db/model"
+	"linktree_core/utils/gos"
+)
 
 type UserRegisterInfo struct {
 	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
@@ -37,3 +41,15 @@ func JudgeToken(username string, token string) bool {
 //	})
 //	return "ok"
 //}
+
+func FirstLogin(username string, password string) error {
+	err, usn, pwd := gos.ReadPassFile()
+	if err != nil {
+		return err
+	}
+	if username == usn && password == pwd {
+		return nil
+	} else {
+		return errors.New("the username or password is incorrect")
+	}
+}

@@ -1,10 +1,10 @@
 package dao
 
 import (
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"linktree_core/modules/db"
-	"linktree_core/modules/db/model"
+	"linktree_core/modules/database/db"
+	"linktree_core/modules/database/db/model"
 )
 
 // IUserDao interface

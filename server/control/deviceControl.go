@@ -2,28 +2,46 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/modules/db/model"
+	"linktree_core/utils/result"
+	"linktree_core/utils/result/code"
 )
 
 /*
 * 设备的控制类
  */
 
-// AddDeviceParam 添加设备
-type AddDeviceParam struct {
-	DeviceName        string         `form:"deviceName" json:"deviceName" binding:"max=30"`
-	DeviceIcon        string         `form:"deviceIcon" json:"deviceIcon" binding:"max=40"`
-	DeviceGroup       string         `form:"deviceGroup" json:"deviceGroup" binding:"max=40"`
-	DeviceSubjectName string         `form:"deviceSubjectName" json:"deviceSubjectName" binding:"max=40"`
-	DeviceState       []model.Attrib `form:"deviceState" json:"deviceState" binding:"max=40"`
-	DeviceControl     []model.Attrib `form:"deviceControl" json:"deviceControl" binding:"max=40"`
-}
-
-type GroupName struct {
-	GroupName string `form:"groupName" json:"groupName" binding:"required"`
+func InitDevice(router *gin.RouterGroup) {
+	router.GET("/device", GetDevice)
+	router.POST("/device", AddDevice)
+	router.PUT("/device", UpdateDevice)
+	router.DELETE("/device", DeleteDevice)
 }
 
 // 1,设备的注册 2,设备的订阅主题设置 3,设备的控制 4,设备的查询
+
+func GetDevice(ctx *gin.Context) {
+	//queryMap := ctx.Request.URL.Query()
+	//err, data := service.DeviceService.GetDevice(queryMap)
+	//if err != nil {
+	//	result.APIResponse(ctx, code.OK, data)
+	//}
+	//result.APIResponse(ctx, code.OK, data)
+}
+
+// AddDevice 注册
+func AddDevice(ctx *gin.Context) {
+	result.APIResponse(ctx, code.OK, "POST")
+}
+
+// UpdateDevice 注册
+func UpdateDevice(ctx *gin.Context) {
+	result.APIResponse(ctx, code.OK, "PUT")
+}
+
+// DeleteDevice 注册
+func DeleteDevice(ctx *gin.Context) {
+	result.APIResponse(ctx, code.OK, "DELETE")
+}
 
 // GetAllDevice 返回所有设备
 func GetAllDevice(ctx *gin.Context) {
@@ -50,26 +68,26 @@ func GetGroupDeviceList(ctx *gin.Context) {
 }
 
 // AddDevice 添加设备
-func AddDevice(ctx *gin.Context) {
-	//var addDeviceParam AddDeviceParam
-	//if err := ctx.ShouldBind(&addDeviceParam); err != nil {
-	//	result.APIResponse(ctx, code.ErrParam, err)
-	//	return
-	//}
-	//// 表添加设备
-	//err1 := db.AddDevice(&db.Device{
-	//	DeviceID:    uuid.NewV4(),
-	//	DeviceName:  addDeviceParam.DeviceName,
-	//	DeviceGroup: addDeviceParam.DeviceGroup,
-	//	DeviceSubject: db.DeviceSubject{
-	//		DeviceState:   addDeviceParam.DeviceState,
-	//		DeviceControl: addDeviceParam.DeviceControl,
-	//	},
-	//	DeviceTemplate: addDeviceParam.DeviceSubjectName,
-	//})
-	//if err1 != nil {
-	//	result.APIResponse(ctx, code.ErrParam, err1)
-	//	return
-	//}
-	//result.APIResponse(ctx, code.OK, "ok")
-}
+//func AddDevice(ctx *gin.Context) {
+//	//var addDeviceParam AddDeviceParam
+//	//if err := ctx.ShouldBind(&addDeviceParam); err != nil {
+//	//	result.APIResponse(ctx, code.ErrParam, err)
+//	//	return
+//	//}
+//	//// 表添加设备
+//	//err1 := db.AddDevice(&db.Device{
+//	//	DeviceID:    uuid.NewV4(),
+//	//	DeviceName:  addDeviceParam.DeviceName,
+//	//	DeviceGroup: addDeviceParam.DeviceGroup,
+//	//	DeviceSubject: db.DeviceSubject{
+//	//		DeviceState:   addDeviceParam.DeviceState,
+//	//		DeviceControl: addDeviceParam.DeviceControl,
+//	//	},
+//	//	DeviceTemplate: addDeviceParam.DeviceSubjectName,
+//	//})
+//	//if err1 != nil {
+//	//	result.APIResponse(ctx, code.ErrParam, err1)
+//	//	return
+//	//}
+//	//result.APIResponse(ctx, code.OK, "ok")
+//}

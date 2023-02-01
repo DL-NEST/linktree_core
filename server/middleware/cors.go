@@ -11,7 +11,7 @@ func Cors() gin.HandlerFunc {
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"POST, GET, OPTIONS, PUT, DELETE, UPDATE"},
 		// 自定义头
-		AllowHeaders:     []string{"Origin", "access_token"},
+		AllowHeaders:     []string{"Origin", "Authorization", "*"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {

@@ -4,3 +4,4 @@
 # exclude
 /param
 /server/dao/tset/test.db
+/docs

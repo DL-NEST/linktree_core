@@ -1,14 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"linktree_core/bootstrap"
 	"linktree_core/commands"
-	"linktree_core/modules/db"
-	"linktree_core/modules/emqx"
-	"linktree_core/modules/redis"
+	"linktree_core/modules/amqp/emqx"
+	"linktree_core/modules/database/db"
+	"linktree_core/modules/database/redis"
 	"linktree_core/server"
-	"linktree_core/utils/logger"
+	"linktree_core/utils/glog"
+	"linktree_core/utils/gos"
+	"linktree_core/utils/pidfile"
+	"os"
 )
 
 //go:generate swag init
@@ -20,38 +24,49 @@ func init() {
 func main() {
 	switch commands.Mode {
 	case "start":
-		// TODO: 判断是否第一次登录，跳转到初始化配置页面
+		glog.Log.Debugf(os.Args[0])
 		bootstrap.InitApp()
-		bootstrap.InitConfig()
-		// model
+		// 读取配置文件
+		if err := bootstrap.InitConfig(); err != nil {
+			if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+				// 没有找到配置文件
+				server.ConfigServe()
+			} else {
+				// 找到了但是出错了
+				glog.Log.Errorf("读取配置文件失败:%v", err)
+			}
+		}
+		// model 数据库
 		db.CreateDBLink()
 		redis.InitRedis()
-		// mq
+		// 连接mq服务器
 		emqx.LinkMqttBroker()
-		// init over
 		bootstrap.OutInfo()
-		serverStart()
+		// 启动web服务
+		server.MainServe()
 		break
-	case "update":
-		logger.Log.Debug("update")
+	case "stop":
+		err := pidfile.KillProcess()
+		if err != nil {
+			fmt.Printf("%v", err)
+			return
+		}
+		fmt.Printf("Service stopped")
 		break
 	case "reboot":
-		logger.Log.Debug("reboot")
+		glog.Log.Debug("reboot")
 		break
-	}
-}
-
-func serverStart() {
-	service := server.InitRouter()
-	port := viper.GetString("server.port")
-	// 启动服务
-	if !viper.InConfig("server.port") {
-		return
-	}
-
-	err := service.Run(":" + port)
-	if err != nil {
-		logger.Log.Panicf("服务启动失败:%v", err)
-		return
+	case "update":
+		glog.Log.Debug("update")
+		break
+	case "pwd":
+		err, use, pwd := gos.ReadPassFile()
+		if err != nil {
+			fmt.Printf("There is no pass file")
+			return
+		}
+		fmt.Printf("username:\t%s\n", use)
+		fmt.Printf("password:\t%s\n", pwd)
+		break
 	}
 }

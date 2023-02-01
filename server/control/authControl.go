@@ -2,6 +2,8 @@ package control
 
 import (
 	"github.com/gin-gonic/gin"
+	"linktree_core/server/service"
+	"linktree_core/utils/glog"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )
@@ -56,4 +58,20 @@ func UserRegister(c *gin.Context) {
 	//	CreateTime: time.Now(),
 	//})
 	result.APIResponse(c, code.OK, "res")
+}
+
+// FirstLogin 第一次登录的检测
+func FirstLogin(ctx *gin.Context) {
+	var userLoginParam UserLoginParam
+	if err := ctx.ShouldBind(&userLoginParam); err != nil {
+		result.APIResponse(ctx, code.ErrParam, err)
+	}
+	glog.Log.Debugf("%v,%v", userLoginParam.Username, userLoginParam.Password)
+
+	err := service.FirstLogin(userLoginParam.Username, userLoginParam.Password)
+	if err != nil {
+		result.APIResponse(ctx, code.ErrAuth, "")
+	} else {
+		result.APIResponse(ctx, code.OK, "")
+	}
 }

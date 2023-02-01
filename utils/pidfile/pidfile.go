@@ -4,6 +4,7 @@
 package pidfile
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -21,7 +22,7 @@ func checkPIDFileAlreadyExists(path string) error {
 	if pidByte, err := os.ReadFile(path); err == nil {
 		pidString := strings.TrimSpace(string(pidByte))
 		if pid, err1 := strconv.Atoi(pidString); err1 == nil {
-			if processExists(pid) {
+			if ProcessExists(pid) {
 				return fmt.Errorf("pid file found, ensure gmqtt is not running or delete %s", path)
 			}
 		}
@@ -46,4 +47,20 @@ func New(path string) (*PIDFile, error) {
 // Remove removes the PIDFile.
 func (file PIDFile) Remove() error {
 	return os.Remove(file.path)
+}
+
+func KillProcess() error {
+	pidByte, err := os.ReadFile("./pid")
+	if err != nil {
+		return errors.New("there is no pid file")
+	}
+	pidString := strings.TrimSpace(string(pidByte))
+	pid, err1 := strconv.Atoi(pidString)
+	if err1 != nil {
+		return errors.New("PID conversion failed")
+	}
+	if !ProcessExists(pid) {
+		return errors.New("kill fail")
+	}
+	return nil
 }

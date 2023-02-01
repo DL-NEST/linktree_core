@@ -3,7 +3,7 @@ package model
 import (
 	"database/sql/driver"
 	"encoding/json"
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 )
 
 // Device 设备表
@@ -33,6 +33,6 @@ func (d DeviceSubject) Value() (driver.Value, error) {
 }
 
 // Scan 实现方法
-func (d *DeviceSubject) Scan(input interface{}) error {
-	return json.Unmarshal(input.([]byte), d)
+func (d DeviceSubject) Scan(input interface{}) error {
+	return json.Unmarshal(input.([]byte), &d)
 }

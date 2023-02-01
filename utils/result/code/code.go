@@ -18,6 +18,8 @@ var (
 	ErrServeState  = &Co{HttpCode: 409, Code: 2007, Message: "服务正在维护升级"}
 	ErrOldAPI      = &Co{HttpCode: 410, Code: 2008, Message: "接口已经弃用"}
 	ErrServe       = &Co{HttpCode: 500, Code: 2009, Message: "服务器不知所错"}
+
+	ErrInit = &Co{HttpCode: 500, Code: 2010, Message: "服务器初始化失败"}
 )
 
 // Co ...

@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
-	"linktree_core/modules/db/model"
+	"github.com/google/uuid"
+	"linktree_core/modules/database/db/model"
 	"linktree_core/server/dao"
 )
 
@@ -18,7 +18,11 @@ func (s userService) GetUser(queryMap map[string][]string) (error, []model.User)
 		return dao.User.DB().All()
 	}
 	id := queryMap["id"]
-	return dao.User.DB().Find(model.User{UserID: uuid.FromStringOrNil(id[0])})
+	user, err := uuid.Parse(id[0])
+	if err != nil {
+		return nil, nil
+	}
+	return dao.User.DB().Find(model.User{UserID: user})
 }
 
 // AddUser 注册

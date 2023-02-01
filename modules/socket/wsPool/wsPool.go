@@ -3,12 +3,13 @@ package wsPool
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	"linktree_core/utils/logger"
-	"log"
+	"linktree_core/utils/glog"
+	"net"
+	"time"
 )
 
 /*
-	一个websocket的管理池子
+一个websocket的管理池子
 */
 
 type Ws struct {
@@ -35,12 +36,24 @@ func (p Pool) GetWs(wsName string) (Ws, bool) {
 // AddWs 添加ws连接
 func (p Pool) AddWs(name string, ws Ws) bool {
 	p[name] = ws
-	msg := fmt.Sprintf("%v:连接成功!", name)
-	logger.Log.Infof(msg)
-	err := ws.Conn.WriteMessage(websocket.TextMessage, []byte(msg))
-	if err != nil {
-		return false
-	}
+	glog.Log.Infof("%v:连接成功!", name)
+	//err := ws.Conn.WriteMessage(websocket.TextMessage, []byte(msg))
+	//if err != nil {
+	//	return false
+	//}
+	p[name].Conn.SetPingHandler(func(appData string) error {
+		err := p[name].Conn.WriteControl(websocket.PongMessage, []byte("message"), time.Now())
+		if err == websocket.ErrCloseSent {
+			return nil
+		} else if e, ok := err.(net.Error); ok && e.Temporary() {
+			return nil
+		}
+		return err
+	})
+	//p[name].Conn.SetPongHandler(func(appData string) error {
+	//	logger.Log.Debug(appData)
+	//	return nil
+	//})
 	// 在协程里面创建监听
 	go onMessage(name, ws.Conn, p)
 	return true
@@ -104,18 +117,31 @@ func (p Pool) GetPoolList() Pool {
 func onMessage(name string, conn *websocket.Conn, pool Pool) {
 	for {
 		// 读取数据
-		messageType, p, err := conn.ReadMessage()
+		_, p, err := conn.ReadMessage()
 		if err != nil {
-			logger.Log.Infof("%v:的连接中断,监听关闭", name)
+			glog.Log.Infof("%v:的连接中断,监听关闭", name)
 			// 在这里删除池内对
 			pool.CleanWs(name)
 			return
 		}
 		// 返回原数据
-		if err1 := conn.WriteMessage(messageType, p); err1 != nil {
-			log.Println(err1)
-			return
-		}
-		logger.Log.Infof("%v : %v", name, string(p))
+		//if err1 := conn.WriteMessage(messageType, p); err1 != nil {
+		//	log.Println(err1)
+		//	return
+		//}
+		//if err2 := conn.WriteJSON(date{
+		//	MsgType: "json",
+		//	Data:    "name",
+		//}); err2 != nil {
+		//	log.Println(err2)
+		//	return
+		//}
+
+		glog.Log.Infof("%v : %v", name, string(p))
 	}
+}
+
+type date struct {
+	MsgType string `json:"msgType"`
+	Data    string `json:"data"`
 }

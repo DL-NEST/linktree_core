@@ -9,27 +9,15 @@ import (
 func InjectV1(server *gin.Engine) {
 	// V1的api
 	V1 := server.Group("/v1", middleware.Auth())
-
+	// sys 系统状态的获取和操作
+	control.InitSys(V1)
+	// file 上传文件
+	control.InitFile(V1)
+	/*实体接口*/
 	// user
 	control.InitUser(V1)
-
-	// sys /*系统状态的获取和操作
-	sys := V1.Group("/sys")
-	{
-		sys.GET("/getSysInfo", control.GetSysInfo)
-	}
-	// file /*上传文件
-	file := V1.Group("/file")
-	{
-		file.POST("/upload", control.UploadOne)
-		file.POST("/uploadList", control.UploadList)
-	}
 	// device
-	device := V1.Group("/device")
-	device.GET("/getAllDevice", control.GetAllDevice)
-	device.GET("/getAllDeviceGroup", control.GetAllDeviceGroup)
-	device.GET("/getGroupDeviceList", control.GetGroupDeviceList)
-	device.POST("/addDevice", control.AddDevice)
+	control.InitDevice(V1)
 
 	// websocket
 	socket := V1.Group("/socket")

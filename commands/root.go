@@ -28,6 +28,13 @@ func init() {
 		},
 	})
 	rootCmd.AddCommand(&cobra.Command{
+		Use:   "stop",
+		Short: "Stop linktree server",
+		Run: func(cmd *cobra.Command, args []string) {
+			Mode = cmd.Use
+		},
+	})
+	rootCmd.AddCommand(&cobra.Command{
 		Use:   "update",
 		Short: "Update linktree server",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -37,6 +44,13 @@ func init() {
 	rootCmd.AddCommand(&cobra.Command{
 		Use:   "reboot",
 		Short: "Reboot linktree server",
+		Run: func(cmd *cobra.Command, args []string) {
+			Mode = cmd.Use
+		},
+	})
+	rootCmd.AddCommand(&cobra.Command{
+		Use:   "pwd",
+		Short: "linktree server temporary password",
 		Run: func(cmd *cobra.Command, args []string) {
 			Mode = cmd.Use
 		},
