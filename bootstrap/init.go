@@ -5,8 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"linktree_core/commands"
 	"linktree_core/utils/glog"
-	"linktree_core/utils/pidfile"
-
+	"linktree_core/utils/gos"
 	"os"
 )
 
@@ -33,11 +32,11 @@ func InitApp() {
                          | |____| || | | ||   < | || |  |  __/|  __/
                          \_____/|_||_| |_||_|\_\\_/|_|   \___| \___|`+"\n\n\t"+
 		"Version:\u001B[;35m %v \n", appVersion)
-	fmt.Printf("\u001B[;32m" + "===========================================================================================\u001B[0m\n\n")
-	glog.Log.Infof("[\u001B[;34m -conf \u001B[0m%v,\u001B[;34m -log \u001B[0m %v]", commands.ConfigPath, commands.LogPath)
+	fmt.Printf("\u001B[;32m" + "===========================================================================================\u001B[0m\n")
+	glog.Log.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
 	glog.Log.Infof("pid:%v", os.Getpid())
 	// 创建pid文件
-	if _, err := pidfile.New("./pid"); err != nil {
+	if _, err := gos.New("./pid"); err != nil {
 		panic(err)
 	}
 }

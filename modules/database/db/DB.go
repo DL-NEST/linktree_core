@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
@@ -18,14 +17,15 @@ func CreateDBLink() {
 	// 判断数据库的使用类型 sqlite and mysql
 	if viper.InConfig("persistence.mysql.addr") {
 		// 使用mysql
-		glog.Log.Info("\t连接数据库" + color.New(color.FgBlue).Add(color.Bold).Sprint(":mysql"))
+		glog.Log.Info("\t连接数据库:mysql")
 		DB = LinkMySql()
 	} else {
 		// 使用sqlite
-		glog.Log.Info("\t连接数据库" + color.New(color.FgBlue).Add(color.Bold).Sprint(":sqlite"))
+		glog.Log.Info("\t连接数据库:sqlite")
 		DB = LinkSqlLite("./linkTree.sqlite")
 	}
-
+	// 数据库迁徙
+	migration()
 }
 
 func LinkMySql() *gorm.DB {
@@ -44,8 +44,6 @@ func LinkMySql() *gorm.DB {
 		panic(any("连接数据库失败"))
 	}
 	DB = db
-	// 数据库迁徙
-	migration()
 	return db
 }
 
@@ -58,7 +56,5 @@ func LinkSqlLite(path string) *gorm.DB {
 		panic(any("连接数据库失败"))
 	}
 	DB = db
-	// 数据库迁徙
-	migration()
 	return db
 }

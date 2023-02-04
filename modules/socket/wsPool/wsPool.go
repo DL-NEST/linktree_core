@@ -50,6 +50,7 @@ func (p Pool) AddWs(name string, ws Ws) bool {
 		}
 		return err
 	})
+	glog.Log.Debug(p[name].Conn)
 	//p[name].Conn.SetPongHandler(func(appData string) error {
 	//	logger.Log.Debug(appData)
 	//	return nil

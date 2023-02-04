@@ -5,14 +5,13 @@ import (
 	"github.com/spf13/viper"
 	"linktree_core/bootstrap"
 	"linktree_core/commands"
+	"linktree_core/commands/flag"
 	"linktree_core/modules/amqp/emqx"
 	"linktree_core/modules/database/db"
 	"linktree_core/modules/database/redis"
 	"linktree_core/server"
 	"linktree_core/utils/glog"
 	"linktree_core/utils/gos"
-	"linktree_core/utils/pidfile"
-	"os"
 )
 
 //go:generate swag init
@@ -23,50 +22,83 @@ func init() {
 
 func main() {
 	switch commands.Mode {
-	case "start":
-		glog.Log.Debugf(os.Args[0])
-		bootstrap.InitApp()
-		// 读取配置文件
-		if err := bootstrap.InitConfig(); err != nil {
-			if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-				// 没有找到配置文件
-				server.ConfigServe()
-			} else {
-				// 找到了但是出错了
-				glog.Log.Errorf("读取配置文件失败:%v", err)
-			}
-		}
-		// model 数据库
-		db.CreateDBLink()
-		redis.InitRedis()
-		// 连接mq服务器
-		emqx.LinkMqttBroker()
-		bootstrap.OutInfo()
-		// 启动web服务
-		server.MainServe()
+	case flag.Start:
+		appStart()
 		break
-	case "stop":
-		err := pidfile.KillProcess()
-		if err != nil {
-			fmt.Printf("%v", err)
-			return
-		}
-		fmt.Printf("Service stopped")
+	case flag.StartBg:
+		backgroundStart()
 		break
-	case "reboot":
-		glog.Log.Debug("reboot")
+	case flag.Reboot:
+		reboot()
 		break
-	case "update":
-		glog.Log.Debug("update")
+	case flag.Stop:
+		stop()
 		break
-	case "pwd":
-		err, use, pwd := gos.ReadPassFile()
-		if err != nil {
-			fmt.Printf("There is no pass file")
-			return
-		}
-		fmt.Printf("username:\t%s\n", use)
-		fmt.Printf("password:\t%s\n", pwd)
+	case flag.Update:
+		update()
+		break
+	case flag.Pwd:
+		pwd()
 		break
 	}
+}
+
+// appStart 服务启动
+func appStart() {
+	bootstrap.InitApp()
+	// 读取配置文件
+	if err := bootstrap.InitConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			// 没有找到配置文件
+			server.ConfigServe()
+		} else {
+			// 找到了但是出错了
+			glog.Log.Errorf("读取配置文件失败:%v", err)
+		}
+	}
+	// model 数据库
+	db.CreateDBLink()
+	redis.InitRedis()
+	// 连接mq服务器
+	emqx.LinkMqttBroker()
+	bootstrap.OutInfo()
+	// 启动web服务
+	server.MainServe()
+}
+
+// backgroundStart 在后台运行服务
+func backgroundStart() {
+	fmt.Printf("Run the service in the background")
+	gos.BackgroundStart()
+}
+
+// reboot 重启服务
+func reboot() {
+	glog.Log.Debug("reboot")
+}
+
+// stop 停止服务
+func stop() {
+	err := gos.KillProcess()
+	if err != nil {
+		fmt.Printf("%v", err)
+		return
+	}
+	fmt.Printf("Service stopped")
+}
+
+// update 更新服务
+func update() {
+	glog.Log.Debug("update")
+}
+
+// pwd 获取初始密码
+func pwd() {
+	err, use, pwd := gos.ReadPassFile()
+	if err != nil {
+		fmt.Printf("There is no pass file")
+		return
+	}
+	fmt.Printf("username:\t%s\n", use)
+	fmt.Printf("password:\t%s\n", pwd)
 }

@@ -18,7 +18,7 @@ func init() {
 
 func SetupLogger() {
 	stdout := zapcore.NewCore(getStdoutEncoder(), zapcore.AddSync(os.Stdout), zapcore.DebugLevel)
-	saveLog := zapcore.NewCore(getSaveEncoder(), zapcore.AddSync(getLogWriter()), zapcore.DebugLevel)
+	saveLog := zapcore.NewCore(getSaveEncoder(), zapcore.AddSync(getLogWriter()), zapcore.InfoLevel)
 	logger := zap.New(zapcore.NewTee(stdout, saveLog), zap.AddCaller())
 	defer logger.Sync()
 	zap.ReplaceGlobals(logger)
