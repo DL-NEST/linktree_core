@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 )
 
 var DB *gorm.DB
@@ -17,11 +17,11 @@ func CreateDBLink() {
 	// 判断数据库的使用类型 sqlite and mysql
 	if viper.InConfig("persistence.mysql.addr") {
 		// 使用mysql
-		glog.Log.Info("\t连接数据库:mysql")
+		dlog.Log.Info("\t连接数据库:mysql")
 		DB = LinkMySql()
 	} else {
 		// 使用sqlite
-		glog.Log.Info("\t连接数据库:sqlite")
+		dlog.Log.Info("\t连接数据库:sqlite")
 		DB = LinkSqlLite("./linkTree.sqlite")
 	}
 	// 数据库迁徙

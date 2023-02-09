@@ -3,7 +3,7 @@ package control
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/service"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )
@@ -66,7 +66,7 @@ func FirstLogin(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&userLoginParam); err != nil {
 		result.APIResponse(ctx, code.ErrParam, err)
 	}
-	glog.Log.Debugf("%v,%v", userLoginParam.Username, userLoginParam.Password)
+	dlog.Log.Debugf("%v,%v", userLoginParam.Username, userLoginParam.Password)
 
 	err := service.FirstLogin(userLoginParam.Username, userLoginParam.Password)
 	if err != nil {

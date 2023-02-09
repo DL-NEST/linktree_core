@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 )
 
 // Auth 登录鉴权
@@ -11,9 +11,9 @@ func Auth() gin.HandlerFunc {
 		//logger.Log.Debug("auth")
 		//logger.Log.Debug(ctx.GetHeader("Authorization"))
 		if ctx.IsWebsocket() {
-			glog.Log.Debug("is")
+			dlog.Log.Debug("is")
 		} else {
-			glog.Log.Debug("cwsfd")
+			dlog.Log.Debug("cwsfd")
 		}
 		ctx.Next()
 	}

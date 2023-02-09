@@ -1,4 +1,4 @@
-package glog
+package dlog
 
 import (
 	"github.com/fatih/color"

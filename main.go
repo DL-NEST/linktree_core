@@ -10,7 +10,7 @@ import (
 	"linktree_core/modules/database/db"
 	"linktree_core/modules/database/redis"
 	"linktree_core/server"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 	"linktree_core/utils/gos"
 )
 
@@ -38,7 +38,7 @@ func main() {
 		update()
 		break
 	case flag.Pwd:
-		pwd()
+		getPwd()
 		break
 	}
 }
@@ -53,7 +53,7 @@ func appStart() {
 			server.ConfigServe()
 		} else {
 			// 找到了但是出错了
-			glog.Log.Errorf("读取配置文件失败:%v", err)
+			dlog.Log.Errorf("读取配置文件失败:%v", err)
 		}
 	}
 	// model 数据库
@@ -74,7 +74,7 @@ func backgroundStart() {
 
 // reboot 重启服务
 func reboot() {
-	glog.Log.Debug("reboot")
+	dlog.Log.Debug("reboot")
 }
 
 // stop 停止服务
@@ -89,11 +89,11 @@ func stop() {
 
 // update 更新服务
 func update() {
-	glog.Log.Debug("update")
+	dlog.Log.Debug("update")
 }
 
-// pwd 获取初始密码
-func pwd() {
+// getPwd 获取初始密码
+func getPwd() {
 	err, use, pwd := gos.ReadPassFile()
 	if err != nil {
 		fmt.Printf("There is no pass file")

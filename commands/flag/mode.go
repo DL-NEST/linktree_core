@@ -1,6 +1,6 @@
 package flag
 
-var (
+const (
 	Start   = "start"
 	StartBg = "start_bg"
 	Reboot  = "reboot"

@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 	"time"
 )
 
@@ -64,7 +64,7 @@ func VerifyRedisLink(rOpt RedisOpt) error {
 	defer c.Close()
 	_, err := c.Ping(ctx).Result()
 	if err != nil {
-		glog.Log.Debugf("%v", rOpt)
+		dlog.Log.Debugf("%v", rOpt)
 		return err
 	}
 	return nil
@@ -100,7 +100,7 @@ func CreateConfig(setupOpt SetupOpt) error {
 
 	err := viper.SafeWriteConfig()
 	if err != nil {
-		glog.Log.Errorf("创建配置文件失败:%v", err)
+		dlog.Log.Errorf("创建配置文件失败:%v", err)
 		return err
 	}
 	return nil

@@ -3,7 +3,7 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 	"time"
 )
 
@@ -13,14 +13,14 @@ func Logger() gin.HandlerFunc {
 		stateTime := time.Now()
 		c.Next()
 		cost := time.Since(stateTime)
-		msg := glog.GinMsg{
+		msg := dlog.GinMsg{
 			Status: c.Writer.Status(),
 			Proto:  strAlign(15, cost.String()),
 			Host:   c.ClientIP(),
 			Method: c.Request.Method,
 			Path:   c.Request.URL.Path,
 		}
-		glog.GinLog(msg)
+		dlog.GinLog(msg)
 	}
 }
 

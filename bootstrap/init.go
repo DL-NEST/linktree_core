@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"linktree_core/commands"
-	"linktree_core/utils/glog"
+	"linktree_core/utils/dlog"
 	"linktree_core/utils/gos"
 	"os"
 )
@@ -33,8 +33,8 @@ func InitApp() {
                          \_____/|_||_| |_||_|\_\\_/|_|   \___| \___|`+"\n\n\t"+
 		"Version:\u001B[;35m %v \n", appVersion)
 	fmt.Printf("\u001B[;32m" + "===========================================================================================\u001B[0m\n")
-	glog.Log.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
-	glog.Log.Infof("pid:%v", os.Getpid())
+	dlog.Log.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
+	dlog.Log.Infof("pid:%v", os.Getpid())
 	// 创建pid文件
 	if _, err := gos.New("./pid"); err != nil {
 		panic(err)
@@ -43,8 +43,8 @@ func InitApp() {
 
 func OutInfo() string {
 	port := viper.GetString("server.port")
-	glog.Log.Info("监听服务端口:" + port)
-	glog.Log.Debug("服务启动成功: http://localhost:" + port)
-	glog.Log.Debug("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")
+	dlog.Log.Info("监听服务端口:" + port)
+	dlog.Log.Debug("服务启动成功: http://localhost:" + port)
+	dlog.Log.Debug("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")
 	return port
 }
