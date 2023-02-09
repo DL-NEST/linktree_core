@@ -23,6 +23,7 @@ func mainRouter() *gin.Engine {
 		middleware.Logger(),
 		middleware.Cors(),
 		middleware.Deprecation())
+	///csdfcv
 	// 空路由
 	router.NoRoute(control.NoRoute)
 	// html
