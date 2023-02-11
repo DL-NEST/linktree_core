@@ -1,7 +1,7 @@
 package db
 
 import (
-	model2 "linktree_core/modules/database/db/model"
+	"linktree_core/server/entity"
 	"linktree_core/utils/dlog"
 )
 
@@ -15,13 +15,13 @@ func migration() {
 	dlog.Log.Info("开始初始化数据库")
 	// 自动迁移(表的创建)
 	// 用户表
-	err := DB.AutoMigrate(&model2.Device{})
+	err := DB.AutoMigrate(&entity.Device{})
 	if err != nil {
 		dlog.Log.Error("用户表迁徙失败")
 		return
 	}
 
-	err = DB.AutoMigrate(&model2.User{})
+	err = DB.AutoMigrate(&entity.User{})
 	if err != nil {
 		dlog.Log.Error("用户表迁徙失败")
 		return

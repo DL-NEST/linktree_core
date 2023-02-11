@@ -3,8 +3,8 @@ package service
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"linktree_core/modules/database/db/model"
 	"linktree_core/server/dao"
+	"linktree_core/server/entity"
 )
 
 var UserService = userService{}
@@ -13,7 +13,7 @@ var UserService = userService{}
 type userService struct {
 }
 
-func (s userService) GetUser(queryMap map[string][]string) (error, []model.User) {
+func (s userService) GetUser(queryMap map[string][]string) (error, []entity.User) {
 	if len(queryMap) == 0 {
 		return dao.User.DB().All()
 	}
@@ -22,7 +22,7 @@ func (s userService) GetUser(queryMap map[string][]string) (error, []model.User)
 	if err != nil {
 		return nil, nil
 	}
-	return dao.User.DB().Find(model.User{UserID: user})
+	return dao.User.Finds(&entity.User{UserID: user})
 }
 
 // AddUser 注册

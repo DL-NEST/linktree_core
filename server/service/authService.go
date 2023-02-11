@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"linktree_core/modules/database/db/model"
+	"linktree_core/server/entity"
 	"linktree_core/utils/gos"
 )
 
@@ -14,7 +14,7 @@ type UserRegisterInfo struct {
 
 // UserLoginInfo 用户登录后的输出输出
 type UserLoginInfo struct {
-	UserInfo model.User
+	UserInfo entity.User
 	Token    string `form:"token" json:"token"`
 }
 

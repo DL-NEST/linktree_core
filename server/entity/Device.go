@@ -1,4 +1,4 @@
-package model
+package entity
 
 import (
 	"database/sql/driver"
@@ -8,9 +8,10 @@ import (
 
 // Device 设备表
 type Device struct {
-	DeviceID       uuid.UUID `gorm:"primaryKey"`
-	DeviceName     string    `gorm:"unique"`
-	DeviceGroup    string
+	BaseModel
+	DeviceID       uuid.UUID     `gorm:"unique"`
+	DeviceName     string        `gorm:"unique"`
+	DeviceGroup    string        `gorm:"unique"`
 	DeviceSubject  DeviceSubject `gorm:"type:json"`
 	DeviceTemplate string
 }

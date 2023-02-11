@@ -4,61 +4,46 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"linktree_core/modules/database/db/model"
 	"linktree_core/server/dao"
+	"linktree_core/server/entity"
 	"testing"
-	"time"
 )
 
-func TestUserCurd(t *testing.T) {
+func TestBaseUserDao(t *testing.T) {
 	sql := sqlite.Open("./test.db")
-	db, err := gorm.Open(sql)
+	DB, err := gorm.Open(sql)
 	if err != nil {
 		t.Errorf("Error connecting to database: %v", err)
 	}
-	err1 := db.AutoMigrate(&model.User{})
+	err1 := DB.AutoMigrate(&entity.User{})
 	if err1 != nil {
+		t.Errorf("Database migration failed: %v", err)
 		return
 	}
-	id := uuid.New()
-	userOld := model.User{
-		UserID:     id,
-		UserName:   "test",
-		Tel:        123,
-		Password:   "qdq",
-		CreateTime: time.Now(),
-		HeadUri:    "q",
-		Role: model.RoleArray{
-			"admin", "root",
-		},
+	userNew := entity.User{
+		BaseModel: entity.BaseModel{},
+		UserID:    uuid.New(),
+		UserName:  "root",
+		Tel:       12345,
+		Password:  "admin",
+		HeadUri:   "/head/{}.jpg",
 	}
-	userNew := model.User{
-		UserID:     id,
-		UserName:   "test1",
-		Tel:        123,
-		Password:   "qdq",
-		CreateTime: time.Now(),
-		HeadUri:    "q",
-		Role: model.RoleArray{
-			"admin", "root",
-		},
-	}
-	userDao := &dao.UserDao{
-		Db: db,
-	}
+	// 设置db
+	dao.User.DB(DB)
+
 	// 添加
-	err, c := dao.User.DB(userDao).Create(userOld)
-	t.Logf("添加=======>%+v", c)
-	// 添加
-	err, a := dao.User.DB(userDao).All()
+	err = dao.User.Create(&userNew)
+	t.Logf("添加=======>%+v", err)
+	// 查询表
+	err, a := dao.User.All()
 	t.Logf("查询所有=======>%+v", a)
-	// 查询一个对象
-	err, f := dao.User.DB(userDao).Find(model.User{UserName: "test"})
-	t.Logf("查询一个对象=======>%+v", f)
 	// 更新
-	err, u := dao.User.DB(userDao).Update(id, userNew)
+	err, u := dao.User.Update(1, &entity.User{UserName: "admin"})
 	t.Logf("更新=======>%+v", u)
+	// 查询一个对象
+	err, f := dao.User.Find(&entity.User{UserName: "admin"})
+	t.Logf("查询一个对象=======>%+v", f)
 	// 删除
-	err = dao.User.DB(userDao).Delete(id)
+	err = dao.User.DeleteUnscoped(1)
 	t.Logf("删除=======>%+v", err)
 }
