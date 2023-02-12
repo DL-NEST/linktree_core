@@ -7,7 +7,7 @@ import (
 	"linktree_core/server/entity"
 )
 
-var UserService = userService{}
+var UserService userService
 
 // userService 业务层
 type userService struct {

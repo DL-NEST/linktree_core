@@ -1,4 +1,4 @@
-package control
+package system
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,21 +7,11 @@ import (
 	"linktree_core/utils/result/code"
 )
 
-/*
-	配置文件接口
-*/
-
-func InitCfg(router *gin.RouterGroup) {
-	// 设置参数
-	router.POST("/createConfig", CreateConfig)
-	// 验证db连接
-	router.POST("/verifyDB", VerifyDB)
-	// 验证redis连接
-	router.POST("/verifyRedis", VerifyRedis)
+type InitializeApiGroup struct {
 }
 
 // VerifyDB 验证数据库连接
-func VerifyDB(ctx *gin.Context) {
+func (InitializeApiGroup) VerifyDB(ctx *gin.Context) {
 	var dsn service.Dsn
 	if err := ctx.ShouldBind(&dsn); err != nil {
 		result.APIResponse(ctx, code.ErrParam, err)
@@ -36,7 +26,7 @@ func VerifyDB(ctx *gin.Context) {
 }
 
 // VerifyRedis 验证redis的连接
-func VerifyRedis(ctx *gin.Context) {
+func (InitializeApiGroup) VerifyRedis(ctx *gin.Context) {
 	var rOpt service.RedisOpt
 	if err := ctx.ShouldBind(&rOpt); err != nil {
 		result.APIResponse(ctx, code.ErrParam, err)
@@ -51,7 +41,7 @@ func VerifyRedis(ctx *gin.Context) {
 }
 
 // CreateConfig 验证数据库连接
-func CreateConfig(ctx *gin.Context) {
+func (InitializeApiGroup) CreateConfig(ctx *gin.Context) {
 	var setupOpt service.SetupOpt
 	if err := ctx.ShouldBind(&setupOpt); err != nil {
 		result.APIResponse(ctx, code.ErrParam, err)

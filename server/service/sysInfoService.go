@@ -10,6 +10,12 @@ import (
 	"time"
 )
 
+var SysInfoService sysInfoService
+
+// sysInfoService 业务层
+type sysInfoService struct {
+}
+
 type SysInfo struct {
 	CpuInfo  CpuInfo             `json:"cpuInfo"`
 	MemInfo  MemInfo             `json:"memInfo"`
@@ -83,7 +89,7 @@ type NetNode struct {
 	PacketsRect int
 }
 
-func GetCpuInfo() CpuInfo {
+func (sysInfoService) GetCpuInfo() CpuInfo {
 	core, _ := cpu.Info()
 	coreInfo := core[0]
 	cores, _ := cpu.Counts(false)
@@ -98,7 +104,7 @@ func GetCpuInfo() CpuInfo {
 	return cpuInfo
 }
 
-func GetMemInfo() MemInfo {
+func (sysInfoService) GetMemInfo() MemInfo {
 	ramInfo, _ := mem.VirtualMemory()
 	memInfo := MemInfo{
 		Total:       int(ramInfo.Total),
@@ -109,7 +115,7 @@ func GetMemInfo() MemInfo {
 	return memInfo
 }
 
-func GetDiskInfo() map[string]DiskNode {
+func (sysInfoService) GetDiskInfo() map[string]DiskNode {
 	diskInfo := make(map[string]DiskNode)
 	diskList, _ := disk.Partitions(true)
 	for i := range diskList {
@@ -124,7 +130,7 @@ func GetDiskInfo() map[string]DiskNode {
 	return diskInfo
 }
 
-func GetHostInfo() HostInfo {
+func (sysInfoService) GetHostInfo() HostInfo {
 	hostInfo, _ := host.Info()
 	hosts := HostInfo{
 		HostName:        hostInfo.Hostname,
@@ -139,7 +145,7 @@ func GetHostInfo() HostInfo {
 	return hosts
 }
 
-func GetNetInfo() map[string]NetNode {
+func (sysInfoService) GetNetInfo() map[string]NetNode {
 	netInfo, _ := net.IOCounters(true)
 	NetInfo := make(map[string]NetNode)
 	for i := range netInfo {
@@ -154,13 +160,13 @@ func GetNetInfo() map[string]NetNode {
 	return NetInfo
 }
 
-func GetSysInfo() SysInfo {
+func (sysInfoService) GetSysInfo() SysInfo {
 	return SysInfo{
-		CpuInfo:  GetCpuInfo(),
-		MemInfo:  GetMemInfo(),
-		DiskNode: GetDiskInfo(),
-		HostInfo: GetHostInfo(),
-		NetNode:  GetNetInfo(),
+		CpuInfo:  SysInfoService.GetCpuInfo(),
+		MemInfo:  SysInfoService.GetMemInfo(),
+		DiskNode: SysInfoService.GetDiskInfo(),
+		HostInfo: SysInfoService.GetHostInfo(),
+		NetNode:  SysInfoService.GetNetInfo(),
 	}
 }
 

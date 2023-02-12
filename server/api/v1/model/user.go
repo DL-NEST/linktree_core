@@ -1,4 +1,4 @@
-package control
+package model
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,14 +7,10 @@ import (
 	"linktree_core/utils/result/code"
 )
 
-func InitUser(router *gin.RouterGroup) {
-	router.GET("/user", GetUser)
-	router.POST("/user", AddUser)
-	router.PUT("/user", UpdateUser)
-	router.DELETE("/user", DeleteUser)
+type UserApiGroup struct {
 }
 
-func GetUser(ctx *gin.Context) {
+func (UserApiGroup) GetUser(ctx *gin.Context) {
 	queryMap := ctx.Request.URL.Query()
 	err, data := service.UserService.GetUser(queryMap)
 	if err != nil {
@@ -24,16 +20,16 @@ func GetUser(ctx *gin.Context) {
 }
 
 // AddUser 注册
-func AddUser(ctx *gin.Context) {
+func (UserApiGroup) AddUser(ctx *gin.Context) {
 	result.APIResponse(ctx, code.OK, "POST")
 }
 
 // UpdateUser 注册
-func UpdateUser(ctx *gin.Context) {
+func (UserApiGroup) UpdateUser(ctx *gin.Context) {
 	result.APIResponse(ctx, code.OK, "PUT")
 }
 
 // DeleteUser 注册
-func DeleteUser(ctx *gin.Context) {
+func (UserApiGroup) DeleteUser(ctx *gin.Context) {
 	result.APIResponse(ctx, code.OK, "DELETE")
 }
