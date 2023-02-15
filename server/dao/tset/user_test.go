@@ -47,3 +47,9 @@ func TestBaseUserDao(t *testing.T) {
 	err = dao.User.DeleteUnscoped(1)
 	t.Logf("删除=======>%+v", err)
 }
+
+func FuzzName(f *testing.F) {
+	f.Fuzz(func(t *testing.T) {
+
+	})
+}

@@ -3,7 +3,7 @@ package wsPool
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	"linktree_core/utils/dlog"
+	"linktree_core/global"
 	"net"
 	"time"
 )
@@ -36,7 +36,7 @@ func (p Pool) GetWs(wsName string) (Ws, bool) {
 // AddWs 添加ws连接
 func (p Pool) AddWs(name string, ws Ws) bool {
 	p[name] = ws
-	dlog.Log.Infof("%v:连接成功!", name)
+	global.GLOG.Infof("%v:连接成功!", name)
 	//err := ws.Conn.WriteMessage(websocket.TextMessage, []byte(msg))
 	//if err != nil {
 	//	return false
@@ -50,7 +50,7 @@ func (p Pool) AddWs(name string, ws Ws) bool {
 		}
 		return err
 	})
-	dlog.Log.Debug(p[name].Conn)
+	global.GLOG.Debug(p[name].Conn)
 	//p[name].Conn.SetPongHandler(func(appData string) error {
 	//	logger.Log.Debug(appData)
 	//	return nil
@@ -120,7 +120,7 @@ func onMessage(name string, conn *websocket.Conn, pool Pool) {
 		// 读取数据
 		_, p, err := conn.ReadMessage()
 		if err != nil {
-			dlog.Log.Infof("%v:的连接中断,监听关闭", name)
+			global.GLOG.Infof("%v:的连接中断,监听关闭", name)
 			// 在这里删除池内对
 			pool.CleanWs(name)
 			return
@@ -138,7 +138,7 @@ func onMessage(name string, conn *websocket.Conn, pool Pool) {
 		//	return
 		//}
 
-		dlog.Log.Infof("%v : %v", name, string(p))
+		global.GLOG.Infof("%v : %v", name, string(p))
 	}
 }
 

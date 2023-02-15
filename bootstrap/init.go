@@ -2,9 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"linktree_core/commands"
-	"linktree_core/utils/dlog"
+	"linktree_core/global"
 	"linktree_core/utils/gos"
 	"os"
 )
@@ -17,8 +16,8 @@ func InitApp() {
 
 	if commands.Version != newVersion {
 		appVersion = appVersion + " \u001B[;34m-> " + newVersion + "\u001B[0m\u001B[0m\u001B[;32m " +
-			"Github: https://github.com/DL-NEST/linktree_server \u001B[0m\n" +
-			"\t\u001B[;34m检测到服务程序有新版本，需要更新程序请使用命令：linktree updata\u001B[0m"
+			"Github: https://github.com/DL-NEST/linktree_core \u001B[0m\n" +
+			"\t\u001B[;34m检测到服务程序有新版本，需要更新程序请使用ctl命令：linktree updata\u001B[0m"
 	} else {
 		appVersion = appVersion + "\u001B[0m\u001B[0m\u001B[;32m " +
 			"Github: https://github.com/DL-NEST/linktree_server \u001B[0m"
@@ -33,18 +32,10 @@ func InitApp() {
                          \_____/|_||_| |_||_|\_\\_/|_|   \___| \___|`+"\n\n\t"+
 		"Version:\u001B[;35m %v \n", appVersion)
 	fmt.Printf("\u001B[;32m" + "===========================================================================================\u001B[0m\n")
-	dlog.Log.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
-	dlog.Log.Infof("pid:%v", os.Getpid())
+	global.GLOG.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
+	global.GLOG.Infof("pid:%v", os.Getpid())
 	// 创建pid文件
 	if _, err := gos.New("./pid"); err != nil {
 		panic(err)
 	}
-}
-
-func OutInfo() string {
-	port := viper.GetString("server.port")
-	dlog.Log.Info("监听服务端口:" + port)
-	dlog.Log.Debug("服务启动成功: http://localhost:" + port)
-	dlog.Log.Debug("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")
-	return port
 }

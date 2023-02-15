@@ -4,6 +4,7 @@ package gos
 
 import (
 	"golang.org/x/sys/windows"
+	"linktree_core/global"
 	"os"
 	"os/exec"
 	"syscall"
@@ -21,5 +22,9 @@ func BackgroundStart() {
 			CreationFlags: windows.DETACHED_PROCESS,
 		},
 	}
-	cmd.Start()
+	err := cmd.Start()
+	if err != nil {
+		global.GLOG.Panicf("The service background failed to start")
+		return
+	}
 }

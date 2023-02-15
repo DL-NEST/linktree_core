@@ -2,7 +2,7 @@ package dao
 
 import (
 	"gorm.io/gorm"
-	"linktree_core/modules/db"
+	"linktree_core/global"
 )
 
 // baseDao Default struct
@@ -26,10 +26,10 @@ func (do *baseDao[T]) DB(opt ...*gorm.DB) *baseDao[T] {
 	if do.db != nil {
 		return do
 	}
-	if db.DB == nil {
+	if global.DB == nil {
 		panic("db is not initialized")
 	}
-	do.db = db.DB
+	do.db = global.DB
 	return do
 }
 

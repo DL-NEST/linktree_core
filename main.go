@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"linktree_core/bootstrap"
 	"linktree_core/commands"
 	"linktree_core/commands/flag"
-	"linktree_core/modules/amqp/emqx"
+	"linktree_core/global"
 	"linktree_core/modules/db"
 	"linktree_core/modules/redis"
 	"linktree_core/server"
-	"linktree_core/utils/dlog"
 	"linktree_core/utils/gos"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 //go:generate swag init
@@ -20,6 +21,13 @@ func init() {
 	commands.Execute()
 }
 
+// @title                       linktree API
+// @version                     0.1.0
+// @description                 This is a sample Server pets
+// @securityDefinitions.apikey  ApiKeyAuth
+// @in                          header
+// @name                        x-token
+// @BasePath                    /
 func main() {
 	switch commands.Mode {
 	case flag.Start:
@@ -47,23 +55,33 @@ func main() {
 func appStart() {
 	bootstrap.InitApp()
 	// 读取配置文件
-	if err := bootstrap.InitConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			// 没有找到配置文件
-			server.ConfigServe()
+	bootstrap.InitConfig()
+	// 数据库
+	db.InitDBLink()
+	redis.InitRedis()
+
+	// 连接mq服务器
+	//emqx.LinkMqttBroker()
+	// 连接kafka服务
+
+	// 启动web服务
+	server.StartServe()
+	// 监听进行信号
+	ListenerProcess()
+}
+
+func ListenerProcess() {
+	signalChan := make(chan os.Signal)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+	s := <-signalChan
+	switch s {
+	case syscall.SIGINT, syscall.SIGTERM:
+		if o, ok := s.(syscall.Signal); ok {
+			os.Exit(int(o))
 		} else {
-			// 找到了但是出错了
-			dlog.Log.Errorf("读取配置文件失败:%v", err)
+			os.Exit(0)
 		}
 	}
-	// model 数据库
-	db.CreateDBLink()
-	redis.InitRedis()
-	// 连接mq服务器
-	emqx.LinkMqttBroker()
-	bootstrap.OutInfo()
-	// 启动web服务
-	server.MainServe()
 }
 
 // backgroundStart 在后台运行服务
@@ -74,7 +92,7 @@ func backgroundStart() {
 
 // reboot 重启服务
 func reboot() {
-	dlog.Log.Debug("reboot")
+	global.GLOG.Debug("reboot")
 }
 
 // stop 停止服务
@@ -89,7 +107,7 @@ func stop() {
 
 // update 更新服务
 func update() {
-	dlog.Log.Debug("update")
+	global.GLOG.Debug("update")
 }
 
 // getPwd 获取初始密码

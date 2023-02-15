@@ -2,6 +2,12 @@
 
 package gos
 
+import (
+	"os"
+	"os/exec"
+	"syscall"
+)
+
 func BackgroundStart() {
 	cmd := &exec.Cmd{
 		Path: os.Args[0],
