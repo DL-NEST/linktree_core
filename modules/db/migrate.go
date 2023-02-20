@@ -6,8 +6,6 @@ import (
 )
 
 func migration() {
-
-	global.GLOG.Info("开始初始化数据库")
 	// 自动迁移(表的创建)
 	// 用户表
 	err := global.DB.AutoMigrate(&entity.Device{})

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"linktree_core/global"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )
@@ -12,7 +13,7 @@ var deprecationApi = []string{
 
 func Deprecation() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		//glog.Log.Debug(ctx.GetHeader("Authorization"))
+		global.GLOG.Debug(ctx.GetHeader("Authorization"))
 		for _, path := range deprecationApi {
 			if ctx.Request.URL.Path == path {
 				result.APIResponse(ctx, code.ErrOldAPI, "")
