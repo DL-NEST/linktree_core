@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/server/dto"
+	"linktree_core/server/model/dto"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )

@@ -10,7 +10,7 @@ type modelRouter struct{}
 func (modelRouter) InitModelRouter(router *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 	var ModelControllerGroup = controller.ModelController
 
-	ModelRouterGroup := router.Group("model")
+	ModelRouterGroup := router.Group("model", handlers...)
 
 	userRouterGroup := ModelRouterGroup.Group("user")
 	// user

@@ -20,7 +20,7 @@ func InitApp() {
 			"\t\u001B[;34m检测到服务程序有新版本，需要更新程序请使用ctl命令：linktree updata\u001B[0m"
 	} else {
 		appVersion = appVersion + "\u001B[0m\u001B[0m\u001B[;32m " +
-			"Github: https://github.com/DL-NEST/linktree_server \u001B[0m"
+			"Github: https://github.com/DL-NEST/linktree_core \u001B[0m"
 	}
 
 	fmt.Printf("\u001B[;32m"+` 

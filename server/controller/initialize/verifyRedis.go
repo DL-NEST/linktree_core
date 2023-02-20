@@ -2,13 +2,23 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/server/dto"
+	"linktree_core/server/model/dto"
 	"linktree_core/server/service"
 	"linktree_core/utils/result"
 	"linktree_core/utils/result/code"
 )
 
-// VerifyRedis 验证redis的连接
+// VerifyRedis
+// @Tags      	Init
+// @Summary   	验证redis的连接
+// @Description  验证redis的连接
+// @Security  	ApiKeyAuth
+// @Accept    	application/json
+// @Produce   	application/json
+// @Param     	data  body    dto.RedisOpt	true	"redis连接参数"
+// @Success   	200  {object} result.Response
+// @Failure   	404  {object} result.Response
+// @Router    	/init/verifyRedis [post]
 func (InitializeController) VerifyRedis(ctx *gin.Context) {
 	var rOpt dto.RedisOpt
 	if err := ctx.ShouldBind(&rOpt); err != nil {

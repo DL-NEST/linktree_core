@@ -24,10 +24,14 @@ func init() {
 // @title                       linktree API
 // @version                     0.1.0
 // @description                 This is a sample Server pets
+// @termsOfService  			https://github.com/DL-NEST/linktree_core
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+// @host      localhost:5523
+// @BasePath  /
 // @securityDefinitions.apikey  ApiKeyAuth
 // @in                          header
-// @name                        x-token
-// @BasePath                    /
+// @name                        Authorization
 func main() {
 	switch commands.Mode {
 	case flag.Start:
@@ -117,6 +121,7 @@ func getPwd() {
 		fmt.Printf("There is no pass file")
 		return
 	}
+	fmt.Printf("temporaryAccount \n")
 	fmt.Printf("username:\t%s\n", use)
 	fmt.Printf("password:\t%s\n", pwd)
 }

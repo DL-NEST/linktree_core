@@ -1,12 +1,384 @@
+basePath: /
+definitions:
+  dto.CpuInfo:
+    properties:
+      CpuVendor:
+        description: cpu厂商
+        type: string
+      cpuCore:
+        description: 核心数
+        type: integer
+      cpuHt:
+        description: 逻辑线程
+        type: integer
+      cpuHz:
+        description: cpu频率
+        type: number
+      cpuName:
+        description: cpu型号
+        type: string
+    type: object
+  dto.DiskNode:
+    properties:
+      free:
+        description: 剩余磁盘大小
+        type: integer
+      total:
+        description: 总磁盘大小
+        type: integer
+      used:
+        description: 使用磁盘大小
+        type: integer
+      usedPercent:
+        description: 使用占比
+        type: number
+    type: object
+  dto.Dsn:
+    properties:
+      addr:
+        type: string
+      dataname:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.Emq:
+    properties:
+      addr:
+        type: string
+      client:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.HostInfo:
+    properties:
+      bootTime:
+        description: BootTime
+        type: string
+      hostID:
+        description: 系统标识
+        type: string
+      hostName:
+        description: 主机用户名称
+        type: string
+      kernelArch:
+        description: 系统架构
+        type: string
+      os:
+        description: 操作系统
+        type: string
+      platForm:
+        description: 操作平台
+        type: string
+      platFormVersion:
+        description: 系统版本号
+        type: string
+      upTime:
+        description: 运行时间
+        type: string
+    type: object
+  dto.MemInfo:
+    properties:
+      free:
+        description: 剩余内存
+        type: integer
+      total:
+        description: 总内存
+        type: integer
+      used:
+        description: 使用内存
+        type: integer
+      usedPercent:
+        description: 使用占比
+        type: number
+    type: object
+  dto.NetNode:
+    properties:
+      bytesRect:
+        description: 字节接收量
+        type: integer
+      bytesSent:
+        description: 字节发送量
+        type: integer
+      packetsRect:
+        description: 包接收量
+        type: integer
+      packetsSent:
+        description: 包发送量
+        type: integer
+    type: object
+  dto.RedisOpt:
+    properties:
+      addr:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.SetupOpt:
+    properties:
+      dsn:
+        $ref: '#/definitions/dto.Dsn'
+      emq:
+        $ref: '#/definitions/dto.Emq'
+      redis_opt:
+        $ref: '#/definitions/dto.RedisOpt'
+    type: object
+  dto.SysInfo:
+    properties:
+      cpuInfo:
+        $ref: '#/definitions/dto.CpuInfo'
+      diskNode:
+        additionalProperties:
+          $ref: '#/definitions/dto.DiskNode'
+        type: object
+      hostInfo:
+        $ref: '#/definitions/dto.HostInfo'
+      memInfo:
+        $ref: '#/definitions/dto.MemInfo'
+      netNode:
+        additionalProperties:
+          $ref: '#/definitions/dto.NetNode'
+        type: object
+    type: object
+  result.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+host: localhost:5523
 info:
   contact: {}
   description: This is a sample Server pets
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://github.com/DL-NEST/linktree_core
   title: linktree API
   version: 0.1.0
-paths: {}
+paths:
+  /init/createConfig:
+    post:
+      consumes:
+      - application/json
+      description: 创建配置文件
+      parameters:
+      - description: config文件参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SetupOpt'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建配置文件
+      tags:
+      - Init
+  /init/verifyDB:
+    post:
+      consumes:
+      - application/json
+      description: 验证数据库连接
+      parameters:
+      - description: DB连接参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Dsn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 验证数据库连接
+      tags:
+      - Init
+  /init/verifyRedis:
+    post:
+      consumes:
+      - application/json
+      description: 验证redis的连接
+      parameters:
+      - description: redis连接参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RedisOpt'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 验证redis的连接
+      tags:
+      - Init
+  /model/user:
+    delete:
+      consumes:
+      - application/json
+      description: 删除User
+      parameters:
+      - description: DB连接参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Dsn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除User
+      tags:
+      - Model
+    get:
+      consumes:
+      - application/json
+      description: 获取User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取User
+      tags:
+      - Model
+    post:
+      consumes:
+      - application/json
+      description: 添加User
+      parameters:
+      - description: DB连接参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Dsn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加User
+      tags:
+      - Model
+    put:
+      consumes:
+      - application/json
+      description: 更新User
+      parameters:
+      - description: DB连接参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Dsn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新User
+      tags:
+      - Model
+  /sysInfo/all:
+    get:
+      consumes:
+      - application/json
+      description: 获取系统信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回系统信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/result.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.SysInfo'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取系统信息
+      tags:
+      - SysInfo
 securityDefinitions:
   ApiKeyAuth:
     in: header
-    name: x-token
+    name: Authorization
     type: apiKey
 swagger: "2.0"

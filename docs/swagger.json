@@ -3,14 +3,590 @@
     "info": {
         "description": "This is a sample Server pets",
         "title": "linktree API",
+        "termsOfService": "https://github.com/DL-NEST/linktree_core",
         "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "0.1.0"
     },
-    "paths": {},
+    "host": "localhost:5523",
+    "basePath": "/",
+    "paths": {
+        "/init/createConfig": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "创建配置文件",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Init"
+                ],
+                "summary": "创建配置文件",
+                "parameters": [
+                    {
+                        "description": "config文件参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SetupOpt"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/init/verifyDB": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "验证数据库连接",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Init"
+                ],
+                "summary": "验证数据库连接",
+                "parameters": [
+                    {
+                        "description": "DB连接参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Dsn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/init/verifyRedis": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "验证redis的连接",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Init"
+                ],
+                "summary": "验证redis的连接",
+                "parameters": [
+                    {
+                        "description": "redis连接参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RedisOpt"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/model/user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Model"
+                ],
+                "summary": "获取User",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "更新User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Model"
+                ],
+                "summary": "更新User",
+                "parameters": [
+                    {
+                        "description": "DB连接参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Dsn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "添加User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Model"
+                ],
+                "summary": "添加User",
+                "parameters": [
+                    {
+                        "description": "DB连接参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Dsn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "删除User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Model"
+                ],
+                "summary": "删除User",
+                "parameters": [
+                    {
+                        "description": "DB连接参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Dsn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/sysInfo/all": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "获取系统信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SysInfo"
+                ],
+                "summary": "获取系统信息",
+                "responses": {
+                    "200": {
+                        "description": "返回系统信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/result.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.SysInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/result.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CpuInfo": {
+            "type": "object",
+            "properties": {
+                "CpuVendor": {
+                    "description": "cpu厂商",
+                    "type": "string"
+                },
+                "cpuCore": {
+                    "description": "核心数",
+                    "type": "integer"
+                },
+                "cpuHt": {
+                    "description": "逻辑线程",
+                    "type": "integer"
+                },
+                "cpuHz": {
+                    "description": "cpu频率",
+                    "type": "number"
+                },
+                "cpuName": {
+                    "description": "cpu型号",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.DiskNode": {
+            "type": "object",
+            "properties": {
+                "free": {
+                    "description": "剩余磁盘大小",
+                    "type": "integer"
+                },
+                "total": {
+                    "description": "总磁盘大小",
+                    "type": "integer"
+                },
+                "used": {
+                    "description": "使用磁盘大小",
+                    "type": "integer"
+                },
+                "usedPercent": {
+                    "description": "使用占比",
+                    "type": "number"
+                }
+            }
+        },
+        "dto.Dsn": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "dataname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.Emq": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.HostInfo": {
+            "type": "object",
+            "properties": {
+                "bootTime": {
+                    "description": "BootTime",
+                    "type": "string"
+                },
+                "hostID": {
+                    "description": "系统标识",
+                    "type": "string"
+                },
+                "hostName": {
+                    "description": "主机用户名称",
+                    "type": "string"
+                },
+                "kernelArch": {
+                    "description": "系统架构",
+                    "type": "string"
+                },
+                "os": {
+                    "description": "操作系统",
+                    "type": "string"
+                },
+                "platForm": {
+                    "description": "操作平台",
+                    "type": "string"
+                },
+                "platFormVersion": {
+                    "description": "系统版本号",
+                    "type": "string"
+                },
+                "upTime": {
+                    "description": "运行时间",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.MemInfo": {
+            "type": "object",
+            "properties": {
+                "free": {
+                    "description": "剩余内存",
+                    "type": "integer"
+                },
+                "total": {
+                    "description": "总内存",
+                    "type": "integer"
+                },
+                "used": {
+                    "description": "使用内存",
+                    "type": "integer"
+                },
+                "usedPercent": {
+                    "description": "使用占比",
+                    "type": "number"
+                }
+            }
+        },
+        "dto.NetNode": {
+            "type": "object",
+            "properties": {
+                "bytesRect": {
+                    "description": "字节接收量",
+                    "type": "integer"
+                },
+                "bytesSent": {
+                    "description": "字节发送量",
+                    "type": "integer"
+                },
+                "packetsRect": {
+                    "description": "包接收量",
+                    "type": "integer"
+                },
+                "packetsSent": {
+                    "description": "包发送量",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.RedisOpt": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SetupOpt": {
+            "type": "object",
+            "properties": {
+                "dsn": {
+                    "$ref": "#/definitions/dto.Dsn"
+                },
+                "emq": {
+                    "$ref": "#/definitions/dto.Emq"
+                },
+                "redis_opt": {
+                    "$ref": "#/definitions/dto.RedisOpt"
+                }
+            }
+        },
+        "dto.SysInfo": {
+            "type": "object",
+            "properties": {
+                "cpuInfo": {
+                    "$ref": "#/definitions/dto.CpuInfo"
+                },
+                "diskNode": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/dto.DiskNode"
+                    }
+                },
+                "hostInfo": {
+                    "$ref": "#/definitions/dto.HostInfo"
+                },
+                "memInfo": {
+                    "$ref": "#/definitions/dto.MemInfo"
+                },
+                "netNode": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/dto.NetNode"
+                    }
+                }
+            }
+        },
+        "result.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
+                }
+            }
+        }
+    },
     "securityDefinitions": {
         "ApiKeyAuth": {
             "type": "apiKey",
-            "name": "x-token",
+            "name": "Authorization",
             "in": "header"
         }
     }

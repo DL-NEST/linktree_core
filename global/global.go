@@ -17,7 +17,7 @@ var (
 	// DB 关系型数据库
 	DB *gorm.DB
 	// RdGroup 缓存型数据库
-	RdGroup *redisGroup
+	RdGroup redisGroup
 	// GLOG 全局日记输出
 	GLOG *zap.SugaredLogger
 	// GLOG_S 全局日记输出

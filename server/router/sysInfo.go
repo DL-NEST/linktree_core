@@ -11,7 +11,7 @@ func (sysInfoRouter) InitSysInfoRouter(router *gin.RouterGroup, handlers ...gin.
 	var SysInfoController = controller.SysInfoController
 
 	// 系统信息
-	SysInfoRouterGroup := router.Group("sysInfo")
+	SysInfoRouterGroup := router.Group("sysInfo", handlers...)
 	{
 		SysInfoRouterGroup.GET("all", SysInfoController.GetSysInfo)
 		//SysInfoRouter.GET("net", SysInfoApiGroup.GetNetInfo)

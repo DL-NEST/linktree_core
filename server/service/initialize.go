@@ -8,7 +8,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"linktree_core/global"
-	"linktree_core/server/dto"
+	"linktree_core/server/model/dto"
 	"time"
 )
 

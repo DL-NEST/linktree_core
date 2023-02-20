@@ -6,7 +6,7 @@ import (
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/net"
-	"linktree_core/server/dto"
+	"linktree_core/server/model/dto"
 	"strings"
 	"time"
 )

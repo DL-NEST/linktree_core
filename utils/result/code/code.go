@@ -24,9 +24,9 @@ var (
 
 // Co ...
 type Co struct {
-	HttpCode int
-	Code     int
-	Message  string
+	HttpCode int    `json:"httpCode,omitempty"`
+	Code     int    `json:"code,omitempty"`
+	Message  string `json:"message,omitempty"`
 }
 
 func (code *Co) LogError() string {

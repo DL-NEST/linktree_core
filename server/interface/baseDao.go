@@ -1,4 +1,4 @@
-package dao
+package _interface
 
 import (
 	"gorm.io/gorm"

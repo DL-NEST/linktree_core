@@ -12,8 +12,8 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
-// APIResponse ....
-func APIResponse(Ctx *gin.Context, start *code.Co, data interface{}) {
+// APIResponse ...
+func APIResponse(Ctx *gin.Context, start *code.Co, data any) {
 	httpCo, co, message := code.Decode(start)
 
 	if start == code.OK || start == code.OKorCreated {
@@ -29,4 +29,12 @@ func APIResponse(Ctx *gin.Context, start *code.Co, data interface{}) {
 			Data: nil,
 		})
 	}
+}
+
+func OKWithResp(Ctx *gin.Context, data any) {
+	APIResponse(Ctx, code.OK, data)
+}
+
+func FailWithResp(Ctx *gin.Context, start *code.Co, data any) {
+	APIResponse(Ctx, start, data)
 }

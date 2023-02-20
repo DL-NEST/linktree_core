@@ -1,7 +1,7 @@
-package dao
+package _interface
 
 import (
-	"linktree_core/server/entity"
+	"linktree_core/server/model/entity"
 )
 
 // userDao object
