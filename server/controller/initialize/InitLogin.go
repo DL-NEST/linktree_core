@@ -1,4 +1,4 @@
-package user
+package initialize
 
 import (
 	"github.com/gin-gonic/gin"
@@ -13,23 +13,23 @@ type LoginResponse struct {
 	Token    string `json:"token,omitempty"`
 }
 
-// Login
-// @Tags      	Base
-// @Summary   	用户登录
-// @Description  用户登录
+// InitLogin
+// @Tags      	Init
+// @Summary   	初始化登录
+// @Description  初始化登录
 // @Accept    	application/json
 // @Produce   	application/json
-// @Param     	data  body    request.LoginRequest	true	"登录参数"
+// @Param     	data  body    request.LoginRequest	true	"初始化登录参数"
 // @Success   	200  {object} result.Response{data=LoginResponse}
 // @Failure   	404  {object} result.Response
-// @Router    	/base/login [post]
-func (u UserController) Login(ctx *gin.Context) {
+// @Router    	/init/login [post]
+func (u InitializeController) InitLogin(ctx *gin.Context) {
 	var reo request.LoginRequest
 	err := u.New(ctx).BuildRequest(&reo).Error()
 	if err != nil {
 		return
 	}
-	err, user, token := service.UserService.Login(reo)
+	err, user, token := service.InitializeService.InitLogin(reo)
 	if err != nil {
 		u.Fail(code.ErrLogin, err.Error())
 		return

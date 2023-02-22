@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/utils/result"
-	"linktree_core/utils/result/code"
+	"linktree_core/server/modules/result"
+	"linktree_core/server/modules/result/code"
 )
 
 var deprecationApi = []string{

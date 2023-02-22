@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
@@ -9,6 +10,10 @@ import (
 	"gorm.io/gorm"
 	"linktree_core/global"
 	"linktree_core/server/model/dto"
+	"linktree_core/server/model/dto/request"
+	"linktree_core/server/model/entity"
+	"linktree_core/server/modules/jwt"
+	"linktree_core/utils/gos"
 	"time"
 )
 
@@ -46,6 +51,35 @@ func (initializeService) VerifyRedisLink(rOpt dto.RedisOpt) error {
 		return err
 	}
 	return nil
+}
+
+// InitLogin 初始化登录
+func (initializeService) InitLogin(request request.LoginRequest) (error, entity.User, string) {
+	// 系统未初始化
+	if global.SysInit {
+		return errors.New("系统已初始化"), entity.User{}, ""
+	}
+
+	err, use, pwd := gos.ReadPassFile()
+	if err != nil {
+		fmt.Printf("There is no pass file")
+		return errors.New("there is no pass file"), entity.User{}, ""
+	}
+	if request.UserName == use && request.Password == pwd {
+		// 签发token
+		j := jwt.NewJWT()
+		token, err2 := j.CreateToken(j.CreateTemporaryClaims(jwt.BaseClaims{
+			Username:   "root",
+			LoginPlace: request.LoginPlace,
+			LoginIp:    request.LoginIp,
+		}, time.Now().Add(5*time.Minute))) // 有效期5分钟
+		if err2 != nil {
+			return err2, entity.User{}, token
+		}
+		return nil, entity.User{}, token
+	} else {
+		return errors.New("初始密码错误"), entity.User{}, ""
+	}
 }
 
 func (initializeService) CreateConfig(setupOpt dto.SetupOpt) error {

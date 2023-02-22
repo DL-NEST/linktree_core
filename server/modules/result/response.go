@@ -2,7 +2,7 @@ package result
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/utils/result/code"
+	"linktree_core/server/modules/result/code"
 )
 
 // Response ...
@@ -26,7 +26,7 @@ func APIResponse(Ctx *gin.Context, start *code.Co, data any) {
 		Ctx.JSON(httpCo, Response{
 			Code: co,
 			Msg:  message,
-			Data: nil,
+			Data: data,
 		})
 	}
 }

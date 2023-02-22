@@ -11,7 +11,7 @@ type RoleArray []string
 // User 用户表
 type User struct {
 	BaseModel
-	UserID   uuid.UUID `gorm:"unique"`
+	UUID     uuid.UUID `gorm:"unique"`
 	UserName string    `gorm:"unique"`
 	Tel      uint      `gorm:"unique"`
 	Password string

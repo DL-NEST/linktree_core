@@ -11,11 +11,24 @@ type userDao struct {
 
 // IUserDao interface
 type IUserDao interface {
-	FindInUserName()
+	FindInTel(tel uint) (error, entity.User)
+	FindInUserName(userName string) (error, entity.User)
 }
 
-func (do userDao) FindInUserName() {
+func (do userDao) FindInTel(tel uint) (error, entity.User) {
+	var result entity.User
+	err := do.DB().db.Where(&entity.User{Tel: tel}).First(&result).Error
+	if err != nil {
+		return err, result
+	}
+	return nil, result
+}
 
-	//TODO implement me
-	panic("implement me")
+func (do userDao) FindInUserName(userName string) (error, entity.User) {
+	var result entity.User
+	err := do.DB().db.Where(&entity.User{UserName: userName}).First(&result).Error
+	if err != nil {
+		return err, result
+	}
+	return nil, result
 }

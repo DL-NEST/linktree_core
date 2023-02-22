@@ -145,12 +145,46 @@ definitions:
           $ref: '#/definitions/dto.NetNode'
         type: object
     type: object
+  initialize.LoginResponse:
+    properties:
+      token:
+        type: string
+      userId:
+        type: integer
+      userName:
+        type: string
+    type: object
+  request.LoginRequest:
+    properties:
+      loginIp:
+        type: string
+      loginPlace:
+        type: string
+      password:
+        type: string
+      userName:
+        type: string
+    required:
+    - loginIp
+    - loginPlace
+    - password
+    - userName
+    type: object
   result.Response:
     properties:
       code:
         type: integer
       data: {}
       msg:
+        type: string
+    type: object
+  user.LoginResponse:
+    properties:
+      token:
+        type: string
+      userId:
+        type: integer
+      userName:
         type: string
     type: object
 host: localhost:5523
@@ -164,6 +198,37 @@ info:
   title: linktree API
   version: 0.1.0
 paths:
+  /base/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录
+      parameters:
+      - description: 登录参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/result.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/user.LoginResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      summary: 用户登录
+      tags:
+      - Base
   /init/createConfig:
     post:
       consumes:
@@ -190,6 +255,37 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 创建配置文件
+      tags:
+      - Init
+  /init/login:
+    post:
+      consumes:
+      - application/json
+      description: 初始化登录
+      parameters:
+      - description: 初始化登录参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/result.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/initialize.LoginResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/result.Response'
+      summary: 初始化登录
       tags:
       - Init
   /init/verifyDB:

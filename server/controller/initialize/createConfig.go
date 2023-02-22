@@ -3,9 +3,9 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
+	"linktree_core/server/modules/result"
+	"linktree_core/server/modules/result/code"
 	"linktree_core/server/service"
-	"linktree_core/utils/result"
-	"linktree_core/utils/result/code"
 )
 
 // CreateConfig

@@ -6,9 +6,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "linktree_core/docs"
 	"linktree_core/server/middleware"
+	"linktree_core/server/modules/result"
+	"linktree_core/server/modules/result/code"
 	"linktree_core/server/router"
-	"linktree_core/utils/result"
-	"linktree_core/utils/result/code"
 	"net/http"
 )
 
@@ -45,8 +45,8 @@ func MainRouter() *gin.Engine {
 		})
 	}
 	{
-		router.DefaultRouter.InitBaseRouter(publicGroup)          // 应用默认接口不用鉴权的登录等功能
-		router.InitializeRouter.InitInitializeRouter(publicGroup) // 初始化应用接口,本地密码鉴权
+		router.BaseRouter.InitBaseRouter(publicGroup)             // 应用默认接口不用鉴权的登录等功能
+		router.InitializeRouter.InitInitializeRouter(publicGroup) // 初始化应用的接口
 	}
 	// 做鉴权的接口
 	privateGroup := RouterGroup.Group("", middleware.Auth())

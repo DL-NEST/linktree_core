@@ -19,7 +19,9 @@ var (
 	ErrOldAPI      = &Co{HttpCode: 410, Code: 2008, Message: "接口已经弃用"}
 	ErrServe       = &Co{HttpCode: 500, Code: 2009, Message: "服务器不知所错"}
 
-	ErrInit = &Co{HttpCode: 500, Code: 2010, Message: "服务器初始化失败"}
+	ErrInit    = &Co{HttpCode: 500, Code: 2010, Message: "服务器初始化失败"}
+	ErrNotInit = &Co{HttpCode: 401, Code: 2011, Message: "服务器未初始化"}
+	ErrLogin   = &Co{HttpCode: 401, Code: 2012, Message: "用户或密码错误"}
 )
 
 // Co ...

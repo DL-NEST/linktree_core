@@ -3,14 +3,10 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
+	"linktree_core/server/modules/result"
+	"linktree_core/server/modules/result/code"
 	"linktree_core/server/service"
-	"linktree_core/utils/result"
-	"linktree_core/utils/result/code"
 )
-
-type request struct {
-	dto.Dsn
-}
 
 // VerifyDB
 // @Tags      	Init
@@ -24,12 +20,12 @@ type request struct {
 // @Failure   	404  {object} result.Response
 // @Router    	/init/verifyDB [post]
 func (InitializeController) VerifyDB(ctx *gin.Context) {
-	var dsn request
+	var dsn dto.Dsn
 	if err := ctx.ShouldBind(&dsn); err != nil {
 		result.APIResponse(ctx, code.ErrParam, err)
 		return
 	}
-	err := service.InitializeService.VerifyDBLink(dsn.Dsn)
+	err := service.InitializeService.VerifyDBLink(dsn)
 	if err != nil {
 		result.APIResponse(ctx, code.ErrParam, "err")
 		return

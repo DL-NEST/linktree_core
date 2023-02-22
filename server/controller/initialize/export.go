@@ -1,3 +1,7 @@
 package initialize
 
-type InitializeController struct{}
+import "linktree_core/server/controller/base"
+
+type InitializeController struct {
+	base.BaseController
+}

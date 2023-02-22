@@ -3,8 +3,8 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
-	"linktree_core/utils/result"
-	"linktree_core/utils/result/code"
+	"linktree_core/server/modules/result"
+	"linktree_core/server/modules/result/code"
 )
 
 // VerifyEmq 验证数据库连接

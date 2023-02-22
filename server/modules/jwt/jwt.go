@@ -50,8 +50,21 @@ func (j *JWT) CreateClaims(baseClaims BaseClaims) CustomClaims {
 		BaseClaims: baseClaims,
 		RegisteredClaims: jwt.RegisteredClaims{
 			NotBefore: jwt.NewNumericDate(time.Now()),         // 签名生效时间
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(ep)), // 过期时间 7天  配置文件
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(ep)), // 过期时间 配置文件
 			Issuer:    "linktree",                             // 签名的发行者
+		},
+	}
+	return claims
+}
+
+// CreateTemporaryClaims 创建临时Claims
+func (j *JWT) CreateTemporaryClaims(baseClaims BaseClaims, expiresAt time.Time) CustomClaims {
+	claims := CustomClaims{
+		BaseClaims: baseClaims,
+		RegisteredClaims: jwt.RegisteredClaims{
+			NotBefore: jwt.NewNumericDate(time.Now()), // 签名生效时间
+			ExpiresAt: jwt.NewNumericDate(expiresAt),  // 过期时间
+			Issuer:    "linktree",                     // 签名的发行者
 		},
 	}
 	return claims
