@@ -20,6 +20,6 @@ var (
 	RdGroup redisGroup
 	// GLOG 全局日记输出
 	GLOG *zap.SugaredLogger
-	// GLOG_S 全局日记输出
-	GLOG_S *zap.Logger
+	// GlogS 全局日记输出
+	GlogS *zap.Logger
 )

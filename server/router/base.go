@@ -11,5 +11,6 @@ func (defaultRouter) InitBaseRouter(Router *gin.RouterGroup, handlers ...gin.Han
 	DefaultRouterGroup := Router.Group("base", handlers...)
 	{
 		DefaultRouterGroup.POST("login", controller.UserController.Login)
+		DefaultRouterGroup.POST("test", controller.UserController.Test)
 	}
 }

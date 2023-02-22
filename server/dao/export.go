@@ -1,4 +1,4 @@
-package _interface
+package dao
 
 var (
 	User userDao

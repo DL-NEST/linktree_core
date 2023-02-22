@@ -20,8 +20,8 @@ func SetupLogger() {
 	saveLog := zapcore.NewCore(getSaveEncoder(), zapcore.AddSync(getLogWriter()), zapcore.InfoLevel)
 	logger := zap.New(zapcore.NewTee(stdout, saveLog), zap.AddCaller())
 	defer logger.Sync()
-	global.GLOG_S = logger
-	zap.ReplaceGlobals(global.GLOG_S)
+	global.GlogS = logger
+	zap.ReplaceGlobals(global.GlogS)
 	global.GLOG = logger.Sugar()
 }
 

@@ -30,11 +30,3 @@ func APIResponse(Ctx *gin.Context, start *code.Co, data any) {
 		})
 	}
 }
-
-func OKWithResp(Ctx *gin.Context, data any) {
-	APIResponse(Ctx, code.OK, data)
-}
-
-func FailWithResp(Ctx *gin.Context, start *code.Co, data any) {
-	APIResponse(Ctx, start, data)
-}

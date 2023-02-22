@@ -35,7 +35,7 @@ func LinkMySql() *gorm.DB {
 		CreateBatchSize: 1000,
 	})
 	if err != nil {
-		global.GLOG.Error("连接数据库失败")
+		global.GLOG.Warn("连接数据库失败")
 	}
 	return db
 }

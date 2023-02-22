@@ -87,8 +87,8 @@ func GinLog(ginMsg GinMsg) {
 	//	ginMsg.Path,
 	//)
 	if ginMsg.Status >= http.StatusOK && ginMsg.Status < http.StatusMultipleChoices {
-		global.GLOG_S.Info(msg)
+		global.GlogS.Info(msg)
 	} else {
-		global.GLOG_S.Warn(msg)
+		global.GlogS.Warn(msg)
 	}
 }

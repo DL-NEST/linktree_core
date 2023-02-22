@@ -1,4 +1,4 @@
-package _interface
+package dao
 
 import (
 	"linktree_core/server/model/entity"
