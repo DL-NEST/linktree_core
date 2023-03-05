@@ -2,5 +2,6 @@
 # Editor directories and files
 .idea
 # exclude
-/param
+/deploy/param
 /server/dao/tset/test.db
+/deploy/docker/linktree-ctl
