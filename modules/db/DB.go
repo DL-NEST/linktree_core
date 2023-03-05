@@ -16,7 +16,8 @@ func InitDBLink() {
 		return
 	}
 	// 判断数据库的使用类型 sqlite and mysql
-	if viper.InConfig("persistence.mysql.addr") {
+	global.GLOG.Info(viper.GetString("persistence.db-type"))
+	if viper.GetString("persistence.db-type") == "mysql" {
 		// 使用mysql
 		global.GLOG.Info("\t连接数据库:mysql")
 		global.DB = LinkMySql()
@@ -35,7 +36,7 @@ func LinkMySql() *gorm.DB {
 		CreateBatchSize: 1000,
 	})
 	if err != nil {
-		global.GLOG.Warn("连接数据库失败")
+		global.GLOG.Panic("连接数据库失败")
 	}
 	return db
 }
@@ -46,7 +47,7 @@ func LinkSqlLite(path string) *gorm.DB {
 		CreateBatchSize: 1000,
 	})
 	if err != nil {
-		global.GLOG.Error("连接数据库失败")
+		global.GLOG.Panic("连接数据库失败")
 	}
 	return db
 }

@@ -1,0 +1,25 @@
+broker:
+  addr: 127.0.0.1:1883
+  client: go-server
+  password: dl2002123
+  username: linktree
+persistence:
+  # "mysql" | "sqlite"
+  db-type: mysql
+  mysql:
+    addr: 127.0.0.1:3306
+    charset: utf8
+    dataname: linktree
+    password: example
+    username: root
+  redis:
+    addr: localhost:6379
+    password: ""
+server:
+  port: 5523
+  log:
+    level: info
+  auth-jwt:
+    signing-key: apt
+    # "d"天 "h"小时 "m"分钟 "s"秒
+    jwt-expires-time: 2d
