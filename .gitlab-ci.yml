@@ -32,6 +32,7 @@ lint-test-job:   # 此作业也在测试阶段运行。
     - echo "Linting code... This will take about 10 seconds."
     - echo "No lint issues found."
 
+
 # 此作业在部署阶段运行。
 deploy-job:
   stage: deploy  # 仅当测试阶段的两个作业都成功完成时，它才会运行。
