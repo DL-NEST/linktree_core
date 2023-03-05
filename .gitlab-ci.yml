@@ -44,4 +44,4 @@ deploy-job:
     - cd deploy/docker && go build -o ./linktree-ctl linktree_core
     - if [ $(docker ps -aq --filter name=linktree_core) ];then docker rm -f linktree_core;fi
     - docker build -t linktree_core .
-    - docker run --name linktree_core -d -p 8864:8864 linktree_core
+    - docker run --name linktree_core -d -p 5523:5523 linktree_core
