@@ -22,16 +22,7 @@ unit-test-job:   # 此作业在测试阶段运行。
   tags:
     - test_golang
   script:
-    - echo "Code coverage is 90%"
-
-lint-test-job:   # 此作业也在测试阶段运行。
-  stage: test    # 它可以与单元测试作业同时运行（并行）。
-  tags:
-    - test_golang
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - echo "No lint issues found."
-
+    - echo "单元测试"
 
 # 此作业在部署阶段运行。
 deploy-job:
