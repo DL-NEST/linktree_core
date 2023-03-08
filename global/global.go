@@ -8,6 +8,7 @@ import (
 
 type redisGroup struct {
 	RdAuth *redis.Client
+	MqMsg  *redis.Client
 }
 
 // 全局变量和句柄

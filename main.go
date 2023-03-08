@@ -7,6 +7,7 @@ import (
 	"linktree_core/commands/flag"
 	"linktree_core/global"
 	"linktree_core/modules/db"
+	"linktree_core/modules/emqx"
 	"linktree_core/modules/redis"
 	"linktree_core/server"
 	"linktree_core/utils/gos"
@@ -65,7 +66,7 @@ func appStart() {
 	redis.InitRedis()
 
 	// 连接mq服务器
-	//emqx.LinkMqttBroker()
+	emqx.CreateExHook()
 	// 连接kafka服务
 
 	// 启动web服务
