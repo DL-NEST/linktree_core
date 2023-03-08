@@ -10,13 +10,18 @@ func migration() {
 	// 用户表
 	err := global.DB.AutoMigrate(&entity.Device{})
 	if err != nil {
-		global.GLOG.Error("用户表迁徙失败")
+		global.GLOG.Error("Device表迁徙失败")
 		return
 	}
 
 	err = global.DB.AutoMigrate(&entity.User{})
 	if err != nil {
-		global.GLOG.Error("用户表迁徙失败")
+		global.GLOG.Error("User表迁徙失败")
+		return
+	}
+	err = global.DB.AutoMigrate(&entity.DeviceMsg{})
+	if err != nil {
+		global.GLOG.Error("DeviceMsg表迁徙失败")
 		return
 	}
 }

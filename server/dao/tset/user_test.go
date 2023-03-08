@@ -22,7 +22,7 @@ func TestBaseUserDao(t *testing.T) {
 	}
 	userNew := entity.User{
 		BaseModel: entity.BaseModel{},
-		UserID:    uuid.New(),
+		UUID:      uuid.New(),
 		UserName:  "root",
 		Tel:       12345,
 		Password:  "admin",

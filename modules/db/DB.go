@@ -16,7 +16,6 @@ func InitDBLink() {
 		return
 	}
 	// 判断数据库的使用类型 sqlite and mysql
-	global.GLOG.Info(viper.GetString("persistence.db-type"))
 	if viper.GetString("persistence.db-type") == "mysql" {
 		// 使用mysql
 		global.GLOG.Info("\t连接数据库:mysql")
