@@ -36,7 +36,10 @@ func (s *server) OnProviderUnloaded(ctx context.Context, in *pb.ProviderUnloaded
 }
 
 func (s *server) OnMessagePublish(ctx context.Context, in *pb.MessagePublishRequest) (*pb.ValuedResponse, error) {
+	fmt.Printf("%v\t", in.Message.Timestamp)
+
 	msg := MsgType{
+		Time:  in.Message.Timestamp,
 		Topic: in.Message.Topic,
 		Msg:   string(in.Message.Payload),
 	}
@@ -51,6 +54,7 @@ func (s *server) OnMessagePublish(ctx context.Context, in *pb.MessagePublishRequ
 }
 
 type MsgType struct {
+	Time  uint64
 	Topic string
 	Msg   string
 }

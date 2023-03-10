@@ -25,6 +25,7 @@ func MsgWork() {
 }
 
 type MsgType struct {
+	Time  uint64
 	Topic string
 	Msg   string
 }
@@ -47,7 +48,7 @@ func dump(list int64) {
 			return
 		}
 		// 添加的插入
-		times := time.Now().Format("2006-01-02 15:04:05.000")
+		times := time.UnixMilli(int64(msg.Time)).Format("2006-01-02 15:04:05.000")
 		newStr := "(" + "'" + times + "','" + times + "',NULL,'" + msg.Topic + "','" + msg.Msg + "')"
 		newLen := len(sqlList[i]) + len(outStrTemplate) + len(newStr)
 		// 拼接sql语句
