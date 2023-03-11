@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/duke-git/lancet/v2 v2.1.13
+	github.com/eclipse/paho.mqtt.golang v1.4.2
 	github.com/fatih/color v1.14.1
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-contrib/cors v1.4.0
@@ -77,6 +78,7 @@ require (
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/net v0.4.0 // indirect
+	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/text v0.5.0 // indirect
 	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/genproto v0.0.0-20221227171554-f9683d7f8bef // indirect
