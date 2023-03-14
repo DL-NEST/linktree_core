@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"linktree_core/commands/flag"
+	"linktree_core/cmd/commands/flag"
 	"os"
 )
 

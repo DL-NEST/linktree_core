@@ -11,6 +11,13 @@ api遵循mvc的架构
 - service是对接口的操作返回到control层
 - dao层是定义获取数据的接口
 
+
+# emqx的连接
+## exhook连接设置grpc进程池为1000（添加对速度没有影响）
+- redis存储速度为
+- 平均10000条每秒的速率，不使用exhook时6-7w条每秒的速率·
+
+
 ## Install
 ```shell script
 go mod tidy

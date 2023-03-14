@@ -1,8 +1,15 @@
 package benchmark
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/bojand/ghz/printer"
+	"github.com/bojand/ghz/runner"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/go-redis/redis/v8"
+	"linktree_core/modules/emqx"
+	"os"
 	"sync"
 	"testing"
 	"time"
@@ -41,7 +48,7 @@ func TestAddMsg(t *testing.T) {
 	for index, _ := range cList {
 		index2 := index
 		go func() {
-			for i := 0; i < 2; i++ {
+			for i := 0; i < 100; i++ {
 				cList[index2].Publish("test/state", 0, false, fmt.Sprintf("ss:%d", 3)).Wait()
 				//cList[index].Publish("test/ctrl", 0, false, fmt.Sprintf("ss:%d", 3)).Wait()
 			}
@@ -49,4 +56,71 @@ func TestAddMsg(t *testing.T) {
 		}()
 	}
 	wg.Wait()
+}
+
+func TestRPCServiceBenchmark(t *testing.T) {
+	report, err := runner.Run(
+		"HookProvider.OnMessagePublish",
+		"localhost:9981",
+		runner.WithProtoFile("exhook.proto", []string{}),
+		runner.WithDataFromJSON("{}"),
+		runner.WithInsecure(true),
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	printer := printer.ReportPrinter{
+		Out:    os.Stdout,
+		Report: report,
+	}
+
+	printer.Print("pretty")
+}
+
+func BenchmarkAdc(b *testing.B) {
+	_ = redis.NewClient(&redis.Options{
+		Addr:     "127.0.0.1:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	for i := 0; i < b.N; i++ {
+		msg := emqx.MsgType{
+			Time:  324,
+			Topic: "wad",
+			Msg:   "string(in.Message.Payload)",
+		}
+		_, _ = json.Marshal(msg)
+		//RdbAuth.RPush(context.Background(), "logCache", res)
+	}
+}
+
+func BenchmarkAddRedis(b *testing.B) {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "127.0.0.1:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	for i := 0; i < b.N; i++ {
+		msg := emqx.MsgType{
+			Time:  324,
+			Topic: "wad",
+			Msg:   "string(in.Message.Payload)",
+		}
+		res, _ := json.Marshal(msg)
+		rdb.RPush(context.Background(), "logCache", res)
+	}
+}
+
+func BenchmarkAddRediss(b *testing.B) {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "127.0.0.1:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	for i := 0; i < b.N; i++ {
+		rdb.RPush(context.Background(), "logCache", "res")
+	}
 }

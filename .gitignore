@@ -5,3 +5,4 @@
 /deploy/param
 /server/dao/tset/test.db
 /deploy/docker/linktree-ctl
+/deploy/build

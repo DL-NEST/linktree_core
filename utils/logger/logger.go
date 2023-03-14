@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-	"linktree_core/commands"
+	"linktree_core/cmd/commands"
 	"linktree_core/global"
 	"os"
 	"time"

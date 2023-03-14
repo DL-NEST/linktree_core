@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"linktree_core/commands"
+	"linktree_core/cmd/commands"
 	"linktree_core/global"
 	"linktree_core/utils/gos"
 )

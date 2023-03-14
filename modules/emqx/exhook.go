@@ -36,7 +36,6 @@ func (s *server) OnProviderUnloaded(ctx context.Context, in *pb.ProviderUnloaded
 }
 
 func (s *server) OnMessagePublish(ctx context.Context, in *pb.MessagePublishRequest) (*pb.ValuedResponse, error) {
-	fmt.Printf("%v\t", in.Message.Timestamp)
 
 	msg := MsgType{
 		Time:  in.Message.Timestamp,
@@ -45,11 +44,6 @@ func (s *server) OnMessagePublish(ctx context.Context, in *pb.MessagePublishRequ
 	}
 	res, _ := json.Marshal(msg)
 	global.RdGroup.MqMsg.RPush(ctx, "logCache", res)
-	//	//fmt.Printf("%d\n", index)
-	//	//in.Message.Payload = []byte("hardcode payload by exhook-svr-go :)")
-	//	//reply := &pb.ValuedResponse{}
-	//	//reply.Type = pb.ValuedResponse_STOP_AND_RETURN
-	//	//reply.Value = &pb.ValuedResponse_Message{Message: in.Message}
 	return &pb.ValuedResponse{}, nil
 }
 
