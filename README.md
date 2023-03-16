@@ -12,10 +12,10 @@ api遵循mvc的架构
 - dao层是定义获取数据的接口
 
 
-# emqx的连接
-## exhook连接设置grpc进程池为1000（添加对速度没有影响）
-- redis存储速度为
-- 平均10000条每秒的速率，不使用exhook时6-7w条每秒的速率·
+## emqx的连接
+### exhook连接设置grpc进程池为1000（添加对速度没有影响）
+redis存储速度为  
+平均10000条每秒的速率，不使用exhook时6-7w条每秒的速率
 
 
 ## Install
@@ -31,5 +31,5 @@ go run main.go start -c ./ -l ./logs
 ## build
 使用gox对项目进行构建分包
 ```shell script
-gox -os "linux windows darwin" -arch "amd64 arm arm64" -verbose -output "./param/build/{{.OS}}_{{.Arch}}/linktree_ctl"
+gox -os "linux windows darwin" -arch "amd64 arm arm64" -verbose -output "./deploy/build/{{.OS}}_{{.Arch}}/linktree_ctl"
 ```

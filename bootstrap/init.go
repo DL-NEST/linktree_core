@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"linktree_core/cmd/commands"
 	"linktree_core/global"
-	"linktree_core/utils/gos"
+	"linktree_core/utils/pidFile"
 	"os"
 )
 
@@ -35,7 +35,7 @@ func InitApp() {
 	global.GLOG.Infof("[ -conf %v, -log %v]", commands.ConfigPath, commands.LogPath)
 	global.GLOG.Infof("pid:%v", os.Getpid())
 	// 创建pid文件
-	if _, err := gos.New("./pid"); err != nil {
+	if _, err := pidFile.New("./pid"); err != nil {
 		panic(err)
 	}
 }

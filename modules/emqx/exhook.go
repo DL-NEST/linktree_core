@@ -43,7 +43,9 @@ func (s *server) OnMessagePublish(ctx context.Context, in *pb.MessagePublishRequ
 		Msg:   string(in.Message.Payload),
 	}
 	res, _ := json.Marshal(msg)
-	global.RdGroup.MqMsg.RPush(ctx, "logCache", res)
+	// 这是一个耗时操作，丢到协程中
+	// TODO 可以使用ants协程池减少协程的开销
+	go global.RdGroup.MqMsg.RPush(context.Background(), "logCache", res)
 	return &pb.ValuedResponse{}, nil
 }
 
@@ -60,7 +62,7 @@ func CreateExHook() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterHookProviderServer(s, &server{})
-	global.GLOG.Infof("\tStarted gRPC server on ::9981")
+	global.GLOG.Infof("Started gRPC server on ::9981")
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

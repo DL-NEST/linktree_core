@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"linktree_core/cmd/commands"
 	"linktree_core/global"
-	"linktree_core/utils/gos"
+	"linktree_core/utils/pidFile"
 )
 
 // InitConfig 读取配置文件
@@ -20,7 +20,7 @@ func InitConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			// 没有找到配置文件
-			gos.FirstPassFile()
+			pidFile.FirstPassFile()
 			global.SysInit = false
 			return
 		} else {

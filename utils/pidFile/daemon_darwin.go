@@ -1,6 +1,6 @@
 //go:build darwin
 
-package gos
+package pidFile
 
 import (
 	"os"

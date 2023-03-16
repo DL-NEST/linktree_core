@@ -1,4 +1,4 @@
-package gos
+package pidFile
 
 import (
 	"fmt"

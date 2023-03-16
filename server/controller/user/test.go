@@ -2,9 +2,6 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-	"linktree_core/server/dao"
-	"linktree_core/server/model/entity"
 )
 
 type requests struct {
@@ -18,19 +15,19 @@ func (u UserController) Test(ctx *gin.Context) {
 	if err != nil {
 		return
 	}
-	dao.User.Create(&entity.User{
-		BaseModel: entity.BaseModel{
-			ID: 10345,
-		},
-		UUID:     uuid.New(),
-		UserName: "root",
-		Tel:      13623780271,
-		Password: "123",
-		HeadUri:  "/head/3223.jpg",
-		Role: []string{
-			"root", "admin",
-		},
-	})
+	//dao.User.Create(&entity.User{
+	//	BaseModel: entity.BaseModel{
+	//		ID: 10345,
+	//	},
+	//	UUID:     uuid.New(),
+	//	UserName: "root",
+	//	Tel:      13623780271,
+	//	Password: "123",
+	//	HeadUri:  "/head/3223.jpg",
+	//	Role: []string{
+	//		"root", "admin",
+	//	},
+	//})
 
 	u.OK("成功")
 }

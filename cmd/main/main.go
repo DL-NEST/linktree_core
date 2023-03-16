@@ -10,13 +10,11 @@ import (
 	"linktree_core/modules/emqx"
 	"linktree_core/modules/redis"
 	"linktree_core/server"
-	"linktree_core/utils/gos"
+	"linktree_core/utils/pidFile"
 	"os"
 	"os/signal"
 	"syscall"
 )
-
-//go:generate swag init
 
 func init() {
 	commands.Execute()
@@ -95,7 +93,7 @@ func ListenerProcess() {
 // backgroundStart 在后台运行服务
 func backgroundStart() {
 	fmt.Printf("Run the service in the background")
-	gos.BackgroundStart()
+	pidFile.BackgroundStart()
 }
 
 // reboot 重启服务
@@ -105,7 +103,7 @@ func reboot() {
 
 // stop 停止服务
 func stop() {
-	err := gos.KillProcess()
+	err := pidFile.KillProcess()
 	if err != nil {
 		fmt.Printf("%v", err)
 		return
@@ -120,7 +118,7 @@ func update() {
 
 // getPwd 获取初始密码
 func getPwd() {
-	err, use, pwd := gos.ReadPassFile()
+	err, use, pwd := pidFile.ReadPassFile()
 	if err != nil {
 		fmt.Printf("There is no pass file")
 		return

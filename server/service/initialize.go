@@ -13,7 +13,7 @@ import (
 	"linktree_core/server/model/dto/request"
 	"linktree_core/server/model/entity"
 	"linktree_core/server/modules/jwt"
-	"linktree_core/utils/gos"
+	"linktree_core/utils/pidFile"
 	"time"
 )
 
@@ -60,7 +60,7 @@ func (initializeService) InitLogin(request request.LoginRequest) (error, entity.
 		return errors.New("系统已初始化"), entity.User{}, ""
 	}
 
-	err, use, pwd := gos.ReadPassFile()
+	err, use, pwd := pidFile.ReadPassFile()
 	if err != nil {
 		fmt.Printf("There is no pass file")
 		return errors.New("there is no pass file"), entity.User{}, ""

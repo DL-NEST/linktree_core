@@ -1,5 +1,5 @@
-// Package gos 创建pid文件，保证服务单列运行
-package gos
+// Package pidFile 创建pid文件，保证服务单列运行
+package pidFile
 
 import (
 	"errors"
