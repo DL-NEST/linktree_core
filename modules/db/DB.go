@@ -12,7 +12,7 @@ import (
 // InitDBLink 创建数据库连接
 func InitDBLink() {
 	// 未初始化的时候跳过数据库连接
-	if !global.SysInit {
+	if !global.State.SysInit {
 		return
 	}
 	// 判断数据库的使用类型 sqlite and mysql

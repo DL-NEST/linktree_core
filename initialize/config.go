@@ -1,4 +1,4 @@
-package bootstrap
+package initialize
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"linktree_core/utils/pidFile"
 )
 
-// InitConfig 读取配置文件
-func InitConfig() {
+// readConfig 读取配置文件
+func readConfig() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(commands.ConfigPath)
@@ -21,14 +21,14 @@ func InitConfig() {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			// 没有找到配置文件
 			pidFile.FirstPassFile()
-			global.SysInit = false
+			global.State.SysInit = false
 			return
 		} else {
 			// 找到了但是出错了
 			global.GLOG.Errorf("读取配置文件失败:%v", err)
 		}
 	} else {
-		global.SysInit = true
+		global.State.SysInit = true
 	}
 	// 监听配置文件
 	viper.OnConfigChange(func(e fsnotify.Event) {

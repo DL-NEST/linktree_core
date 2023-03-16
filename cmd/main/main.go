@@ -2,13 +2,11 @@ package main
 
 import (
 	"fmt"
-	"linktree_core/bootstrap"
 	"linktree_core/cmd/commands"
 	"linktree_core/cmd/commands/flag"
 	"linktree_core/global"
-	"linktree_core/modules/db"
+	"linktree_core/initialize"
 	"linktree_core/modules/emqx"
-	"linktree_core/modules/redis"
 	"linktree_core/server"
 	"linktree_core/utils/daemon"
 	"linktree_core/utils/pidFile"
@@ -58,21 +56,13 @@ func main() {
 
 // appStart 服务启动
 func appStart() {
-	bootstrap.InitApp()
-	// 读取配置文件
-	bootstrap.InitConfig()
-	// 连接数据库和redis
-	db.InitDBLink()
-	redis.InitRedis()
+	initialize.InitApp()
 	// 创建exhook-grpc-server
-	go emqx.CreateExHook()
-	// 连接kafka服务
-
-	//// 全局定时任务
-	//worker.StartWorker()
-
+	emqx.CreateExHook()
 	// 启动web服务
 	server.StartServe()
+	// 全局定时任务
+	//worker.StartWorker()
 	// 监听进程信号
 	ListenerProcess()
 }

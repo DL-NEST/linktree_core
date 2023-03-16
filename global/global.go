@@ -11,10 +11,15 @@ type redisGroup struct {
 	MqMsg  *redis.Client
 }
 
-// 全局变量和句柄
-var (
+type state struct {
 	// SysInit 应用是否初始化
 	SysInit bool
+}
+
+// 全局变量和句柄
+var (
+	// State 应用全局状态
+	State state
 	// DB 关系型数据库
 	DB *gorm.DB
 	// RdGroup 缓存型数据库

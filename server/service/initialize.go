@@ -56,7 +56,7 @@ func (initializeService) VerifyRedisLink(rOpt dto.RedisOpt) error {
 // InitLogin 初始化登录
 func (initializeService) InitLogin(request request.LoginRequest) (error, entity.User, string) {
 	// 系统未初始化
-	if global.SysInit {
+	if global.State.SysInit {
 		return errors.New("系统已初始化"), entity.User{}, ""
 	}
 

@@ -16,7 +16,7 @@ func JudgmentInit() gin.HandlerFunc {
 		initPath := compile.MatchString(ctx.Request.URL.Path)
 
 		// 判断是否初始化
-		if !global.SysInit {
+		if !global.State.SysInit {
 			// 鉴权初始化路由
 			if initPath {
 				ctx.Next()

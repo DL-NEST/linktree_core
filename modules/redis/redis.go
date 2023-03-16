@@ -8,7 +8,7 @@ import (
 )
 
 func InitRedis() {
-	if !global.SysInit {
+	if !global.State.SysInit {
 		return
 	}
 	global.GLOG.Infof("连接redis")

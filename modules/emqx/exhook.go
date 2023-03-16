@@ -63,7 +63,10 @@ func CreateExHook() {
 	s := grpc.NewServer()
 	pb.RegisterHookProviderServer(s, &server{})
 	global.GLOG.Infof("Started gRPC server on ::9981")
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	go func() {
+		err1 := s.Serve(lis)
+		if err1 != nil {
+			log.Fatalf("failed to serve: %v", err)
+		}
+	}()
 }

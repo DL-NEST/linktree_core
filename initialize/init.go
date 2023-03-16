@@ -1,17 +1,29 @@
-package bootstrap
+package initialize
 
 import (
 	"fmt"
 	"linktree_core/cmd/commands"
 	"linktree_core/global"
+	"linktree_core/modules/db"
+	"linktree_core/modules/redis"
 	"linktree_core/utils/pidFile"
 	"os"
 )
 
 // InitApp 初始化程序打印版本号
 func InitApp() {
+	appInfo()
+	// 读取配置文件
+	readConfig()
+	// 连接数据库和redis
+	db.InitDBLink()
+	redis.InitRedis()
+}
+
+// 输出应用信息检测版本更新
+func appInfo() {
 	var appVersion string
-	// TODO 在这获取有没有版本更新
+	// TODO 在这获取有没有版本更新,未发布待完善
 	newVersion := "0.0.2"
 
 	if commands.Version != newVersion {
