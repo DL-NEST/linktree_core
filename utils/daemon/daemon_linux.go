@@ -1,6 +1,6 @@
-//go:build darwin
+//go:build linux
 
-package pidFile
+package daemon
 
 import (
 	"os"

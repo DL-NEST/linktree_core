@@ -10,7 +10,9 @@ import (
 	"linktree_core/modules/emqx"
 	"linktree_core/modules/redis"
 	"linktree_core/server"
+	"linktree_core/utils/daemon"
 	"linktree_core/utils/pidFile"
+	"linktree_core/utils/process"
 	"os"
 	"os/signal"
 	"syscall"
@@ -59,11 +61,10 @@ func appStart() {
 	bootstrap.InitApp()
 	// 读取配置文件
 	bootstrap.InitConfig()
-	// 数据库
+	// 连接数据库和redis
 	db.InitDBLink()
 	redis.InitRedis()
-
-	// 连接mq服务器
+	// 创建exhook-grpc-server
 	go emqx.CreateExHook()
 	// 连接kafka服务
 
@@ -72,16 +73,18 @@ func appStart() {
 
 	// 启动web服务
 	server.StartServe()
-	// 监听进行信号
+	// 监听进程信号
 	ListenerProcess()
 }
 
 func ListenerProcess() {
-	signalChan := make(chan os.Signal)
-	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	s := <-signalChan
 	switch s {
 	case syscall.SIGINT, syscall.SIGTERM:
+		// 处理程序停止运行后的操作
+		global.GLOG.Info("程序结束")
 		if o, ok := s.(syscall.Signal); ok {
 			os.Exit(int(o))
 		} else {
@@ -93,7 +96,7 @@ func ListenerProcess() {
 // backgroundStart 在后台运行服务
 func backgroundStart() {
 	fmt.Printf("Run the service in the background")
-	pidFile.BackgroundStart()
+	daemon.BackgroundStart()
 }
 
 // reboot 重启服务
@@ -103,7 +106,7 @@ func reboot() {
 
 // stop 停止服务
 func stop() {
-	err := pidFile.KillProcess()
+	err := process.KillProcess()
 	if err != nil {
 		fmt.Printf("%v", err)
 		return
