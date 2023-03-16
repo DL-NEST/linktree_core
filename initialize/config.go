@@ -1,4 +1,4 @@
-package bootstrap
+package initialize
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"linktree_core/utils/pidFile"
 )
 
-// InitConfig 读取配置文件
-func InitConfig() {
+// readConfig 读取配置文件
+func readConfig() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(commands.ConfigPath)
