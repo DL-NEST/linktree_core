@@ -3,7 +3,6 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
-	"linktree_core/server/modules/result"
 	"linktree_core/server/modules/result/code"
 	"linktree_core/server/service"
 )
@@ -19,16 +18,15 @@ import (
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/init/createConfig [post]
-func (InitializeController) CreateConfig(ctx *gin.Context) {
+func (c InitializeController) CreateConfig(ctx *gin.Context) {
 	var setupOpt dto.SetupOpt
-	if err := ctx.ShouldBind(&setupOpt); err != nil {
-		result.APIResponse(ctx, code.ErrParam, err)
+	if err := c.New(ctx).BuildRequest(&setupOpt).Error(); err != nil {
 		return
 	}
 	err := service.InitializeService.CreateConfig(setupOpt)
 	if err != nil {
-		result.APIResponse(ctx, code.ErrInit, "")
+		c.Fail(code.ErrInit, err.Error())
 		return
 	}
-	result.APIResponse(ctx, code.OK, "")
+	c.OK("")
 }

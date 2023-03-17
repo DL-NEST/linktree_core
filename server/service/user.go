@@ -6,6 +6,7 @@ import (
 	"linktree_core/server/model/dto/request"
 	"linktree_core/server/model/entity"
 	"linktree_core/server/modules/jwt"
+	"linktree_core/utils/crypto"
 )
 
 // userService
@@ -19,7 +20,8 @@ func (userService) Login(request request.LoginRequest) (error, entity.User, stri
 	if err != nil {
 		return errors.New("用户不存在"), user, ""
 	}
-	if user.Password != request.Password {
+	// 使用md5
+	if crypto.Md5V1(user.Password) != request.Password {
 		return errors.New("密码错误"), user, ""
 	}
 

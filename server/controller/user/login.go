@@ -23,18 +23,17 @@ type LoginResponse struct {
 // @Success   	200  {object} result.Response{data=LoginResponse}
 // @Failure   	404  {object} result.Response
 // @Router    	/base/login [post]
-func (u UserController) Login(ctx *gin.Context) {
+func (c UserController) Login(ctx *gin.Context) {
 	var reo request.LoginRequest
-	err := u.New(ctx).BuildRequest(&reo).Error()
-	if err != nil {
+	if err := c.New(ctx).BuildRequest(&reo).Error(); err != nil {
 		return
 	}
 	err, user, token := service.UserService.Login(reo)
 	if err != nil {
-		u.Fail(code.ErrLogin, err.Error())
+		c.Fail(code.ErrLogin, err.Error())
 		return
 	}
-	u.OK(LoginResponse{
+	c.OK(LoginResponse{
 		UserName: user.UserName,
 		UserId:   user.ID,
 		Token:    token,

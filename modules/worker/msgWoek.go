@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"linktree_core/global"
+	"linktree_core/modules/emqx"
 	"strings"
 	"time"
 )
@@ -12,22 +13,16 @@ import (
 const KeyName = "logCache"
 
 func MsgWork() {
-	if global.RdGroup.MqMsg == nil {
-		return
-	}
 	for {
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
+		if global.RdGroup.MqMsg == nil {
+			continue
+		}
 		lens := global.RdGroup.MqMsg.LLen(context.Background(), KeyName).Val()
 		if lens > 0 {
 			dump(lens)
 		}
 	}
-}
-
-type MsgType struct {
-	Time  uint64
-	Topic string
-	Msg   string
 }
 
 func dump(list int64) {
@@ -41,7 +36,7 @@ func dump(list int64) {
 	// 可以提取出来统一转换
 	for ii, s := range dumpList {
 		// 反射取到的数据
-		var msg MsgType
+		var msg emqx.MsgType
 		err := json.Unmarshal([]byte(s), &msg)
 		if err != nil {
 			fmt.Printf("erro\n")
@@ -77,8 +72,6 @@ func dump(list int64) {
 	for i2 := 0; i2 < len(dumpList); i2++ {
 		global.RdGroup.MqMsg.RPop(context.Background(), "logCache")
 	}
-	//Rdb.RPop(context.Background(), "logCache")
-	//// 清除redis数据
+	// 清除redis数据
 	//Rdb.LTrim(context.Background(), "logCache", int64(len(dumpList)), 0)
-
 }

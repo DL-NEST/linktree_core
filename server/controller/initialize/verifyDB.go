@@ -3,7 +3,6 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
-	"linktree_core/server/modules/result"
 	"linktree_core/server/modules/result/code"
 	"linktree_core/server/service"
 )
@@ -19,16 +18,15 @@ import (
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/init/verifyDB [post]
-func (InitializeController) VerifyDB(ctx *gin.Context) {
+func (c InitializeController) VerifyDB(ctx *gin.Context) {
 	var dsn dto.Dsn
-	if err := ctx.ShouldBind(&dsn); err != nil {
-		result.APIResponse(ctx, code.ErrParam, err)
+	if err := c.New(ctx).BuildRequest(&dsn).Error(); err != nil {
 		return
 	}
 	err := service.InitializeService.VerifyDBLink(dsn)
 	if err != nil {
-		result.APIResponse(ctx, code.ErrParam, "err")
+		c.Fail(code.ErrParam, err.Error())
 		return
 	}
-	result.APIResponse(ctx, code.OK, "")
+	c.OK("")
 }

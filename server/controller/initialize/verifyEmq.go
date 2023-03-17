@@ -3,15 +3,12 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"linktree_core/server/model/dto"
-	"linktree_core/server/modules/result"
-	"linktree_core/server/modules/result/code"
 )
 
-// VerifyEmq 验证数据库连接
-func (InitializeController) VerifyEmq(ctx *gin.Context) {
+// VerifyEmq 验证emq连接
+func (c InitializeController) VerifyEmq(ctx *gin.Context) {
 	var emq dto.Emq
-	if err := ctx.ShouldBind(&emq); err != nil {
-		result.APIResponse(ctx, code.ErrParam, err)
+	if err := c.New(ctx).BuildRequest(&emq).Error(); err != nil {
 		return
 	}
 	//err := service.ServiceGroup.VerifyDBLink(emq)
@@ -19,5 +16,5 @@ func (InitializeController) VerifyEmq(ctx *gin.Context) {
 	//	result.APIResponse(ctx, code.ErrParam, "err")
 	//	return
 	//}
-	result.APIResponse(ctx, code.OK, "")
+	c.OK("")
 }

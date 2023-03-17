@@ -2,11 +2,11 @@ package model
 
 import (
 	"github.com/gin-gonic/gin"
-	"linktree_core/server/modules/result"
-	"linktree_core/server/modules/result/code"
+	"linktree_core/server/controller/base"
 )
 
 type UserController struct {
+	base.BaseController
 }
 
 // GetUser
@@ -19,13 +19,13 @@ type UserController struct {
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/model/user [get]
-func (UserController) GetUser(ctx *gin.Context) {
+func (c UserController) GetUser(ctx *gin.Context) {
 	//queryMap := ctx.Request.URL.Query()
 	//err, data := service.UserService.GetUser(queryMap)
 	//if err != nil {
 	//	result.APIResponse(ctx, code.OK, data)
 	//}
-	result.APIResponse(ctx, code.OK, "data")
+	c.New(ctx).OK("get")
 }
 
 // AddUser
@@ -39,8 +39,8 @@ func (UserController) GetUser(ctx *gin.Context) {
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/model/user [post]
-func (UserController) AddUser(ctx *gin.Context) {
-	result.APIResponse(ctx, code.OK, "POST")
+func (c UserController) AddUser(ctx *gin.Context) {
+	c.New(ctx).OK("post")
 }
 
 // UpdateUser
@@ -54,8 +54,8 @@ func (UserController) AddUser(ctx *gin.Context) {
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/model/user [put]
-func (UserController) UpdateUser(ctx *gin.Context) {
-	result.APIResponse(ctx, code.OK, "PUT")
+func (c UserController) UpdateUser(ctx *gin.Context) {
+	c.New(ctx).OK("put")
 }
 
 // DeleteUser
@@ -69,6 +69,6 @@ func (UserController) UpdateUser(ctx *gin.Context) {
 // @Success   	200  {object} result.Response
 // @Failure   	404  {object} result.Response
 // @Router    	/model/user [delete]
-func (UserController) DeleteUser(ctx *gin.Context) {
-	result.APIResponse(ctx, code.OK, "DELETE")
+func (c UserController) DeleteUser(ctx *gin.Context) {
+	c.New(ctx).OK("delete")
 }

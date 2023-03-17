@@ -7,6 +7,7 @@ import (
 	"linktree_core/global"
 	"linktree_core/initialize"
 	"linktree_core/modules/emqx"
+	"linktree_core/modules/worker"
 	"linktree_core/server"
 	"linktree_core/utils/daemon"
 	"linktree_core/utils/pidFile"
@@ -62,7 +63,7 @@ func appStart() {
 	// 启动web服务
 	server.StartServe()
 	// 全局定时任务
-	//worker.StartWorker()
+	worker.StartWorker()
 	// 监听进程信号
 	ListenerProcess()
 }

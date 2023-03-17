@@ -1,3 +1,7 @@
 package sysInfo
 
-type SysInfoController struct{}
+import "linktree_core/server/controller/base"
+
+type SysInfoController struct {
+	base.BaseController
+}

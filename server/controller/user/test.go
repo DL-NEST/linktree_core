@@ -9,9 +9,9 @@ type requests struct {
 	Password string `json:"password,omitempty"`
 }
 
-func (u UserController) Test(ctx *gin.Context) {
+func (c UserController) Test(ctx *gin.Context) {
 	var req requests
-	err := u.New(ctx).BuildRequest(&req).Error()
+	err := c.New(ctx).BuildRequest(&req).Error()
 	if err != nil {
 		return
 	}
@@ -29,5 +29,5 @@ func (u UserController) Test(ctx *gin.Context) {
 	//	},
 	//})
 
-	u.OK("成功")
+	c.OK("成功")
 }
