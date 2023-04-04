@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
-	"github.com/spf13/viper"
+	"linktree_core/global"
 	"linktree_core/utils/encoding"
 	"time"
 )
@@ -36,13 +36,13 @@ var (
 
 func NewJWT() *JWT {
 	return &JWT{
-		[]byte(viper.GetString("server.auth-jwt.signing-key")),
+		[]byte(global.Config.GetString("server.auth-jwt.signing-key")),
 	}
 }
 
 // CreateClaims 创建Claims
 func (j *JWT) CreateClaims(baseClaims BaseClaims) CustomClaims {
-	ep, err := encoding.ParseDuration(viper.GetString("server.auth-jwt.jwt-expires-time"))
+	ep, err := encoding.ParseDuration(global.Config.GetString("server.auth-jwt.jwt-expires-time"))
 	if err != nil {
 		ep = 7 * 24 * time.Hour
 	}

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-redis/redis/v8"
-	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"linktree_core/global"
@@ -85,32 +84,32 @@ func (initializeService) InitLogin(request request.LoginRequest) (error, entity.
 func (initializeService) CreateConfig(setupOpt dto.SetupOpt) error {
 	// 设置数据库-判断数据库连接类型
 	if setupOpt.Dsn.Addr != "" {
-		viper.SetDefault("persistence.mysql.addr", setupOpt.Dsn.Addr)
-		viper.SetDefault("persistence.mysql.username", setupOpt.Dsn.Username)
-		viper.SetDefault("persistence.mysql.password", setupOpt.Dsn.Password)
-		viper.SetDefault("persistence.mysql.dataname", setupOpt.Dsn.Dataname)
-		viper.SetDefault("persistence.mysql.charset", "utf8")
+		global.Config.SetDefault("persistence.mysql.addr", setupOpt.Dsn.Addr)
+		global.Config.SetDefault("persistence.mysql.username", setupOpt.Dsn.Username)
+		global.Config.SetDefault("persistence.mysql.password", setupOpt.Dsn.Password)
+		global.Config.SetDefault("persistence.mysql.dataname", setupOpt.Dsn.Dataname)
+		global.Config.SetDefault("persistence.mysql.charset", "utf8")
 	} else {
-		viper.SetDefault("persistence.mysql.addr", "")
-		viper.SetDefault("persistence.mysql.username", "")
-		viper.SetDefault("persistence.mysql.password", "")
-		viper.SetDefault("persistence.mysql.dataname", "")
-		viper.SetDefault("persistence.mysql.charset", "")
+		global.Config.SetDefault("persistence.mysql.addr", "")
+		global.Config.SetDefault("persistence.mysql.username", "")
+		global.Config.SetDefault("persistence.mysql.password", "")
+		global.Config.SetDefault("persistence.mysql.dataname", "")
+		global.Config.SetDefault("persistence.mysql.charset", "")
 	}
 	// 设置缓存方式-判断缓存类型
 	if setupOpt.RedisOpt.Addr != "" {
-		viper.SetDefault("persistence.redis.addr", setupOpt.RedisOpt.Addr)
-		viper.SetDefault("persistence.redis.password", setupOpt.RedisOpt.Password)
+		global.Config.SetDefault("persistence.redis.addr", setupOpt.RedisOpt.Addr)
+		global.Config.SetDefault("persistence.redis.password", setupOpt.RedisOpt.Password)
 	} else {
-		viper.SetDefault("persistence.redis.addr", "")
+		global.Config.SetDefault("persistence.redis.addr", "")
 	}
 	// mqtt-broker
-	viper.SetDefault("broker.addr", setupOpt.Emq.Addr)
-	viper.SetDefault("broker.client", setupOpt.Emq.Client)
-	viper.SetDefault("broker.username", setupOpt.Emq.Username)
-	viper.SetDefault("broker.password", setupOpt.Emq.Password)
+	global.Config.SetDefault("broker.addr", setupOpt.Emq.Addr)
+	global.Config.SetDefault("broker.client", setupOpt.Emq.Client)
+	global.Config.SetDefault("broker.username", setupOpt.Emq.Username)
+	global.Config.SetDefault("broker.password", setupOpt.Emq.Password)
 
-	err := viper.SafeWriteConfig()
+	err := global.Config.SafeWriteConfig()
 	if err != nil {
 		global.GLOG.Errorf("创建配置文件失败:%v", err)
 		return err

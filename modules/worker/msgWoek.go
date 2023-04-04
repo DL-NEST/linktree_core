@@ -3,7 +3,6 @@ package worker
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"linktree_core/global"
 	"linktree_core/modules/emqx"
 	"strings"
@@ -35,11 +34,10 @@ func dump(list int64) {
 	var i uint = 0
 	// 可以提取出来统一转换
 	for ii, s := range dumpList {
-		// 反射取到的数据
 		var msg emqx.MsgType
 		err := json.Unmarshal([]byte(s), &msg)
 		if err != nil {
-			fmt.Printf("erro\n")
+			global.GLOG.Error(err.Error())
 			return
 		}
 		// 添加的插入
@@ -66,11 +64,11 @@ func dump(list int64) {
 	err := transaction.Commit().Error
 	if err != nil {
 		// 回滚事件
-		fmt.Println(transaction.Rollback().Error)
+		global.GLOG.Error(transaction.Rollback().Error)
 		return
 	}
 	for i2 := 0; i2 < len(dumpList); i2++ {
-		global.RdGroup.MqMsg.RPop(context.Background(), "logCache")
+		global.RdGroup.MqMsg.LPop(context.Background(), "logCache")
 	}
 	// 清除redis数据
 	//Rdb.LTrim(context.Background(), "logCache", int64(len(dumpList)), 0)

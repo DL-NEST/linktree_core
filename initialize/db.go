@@ -1,12 +1,17 @@
-package db
+package initialize
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"linktree_core/global"
+	"linktree_core/server/model/entity"
+)
+
+const (
+	Mysql  = "mysql"
+	Sqlite = "sqlite"
 )
 
 // InitDBLink 创建数据库连接
@@ -15,18 +20,25 @@ func InitDBLink() {
 	if !global.State.SysInit {
 		return
 	}
+	switch global.Config.GetString("persistence.db-type") {
+	case Mysql:
+		LinkMySql()
+	case Sqlite:
+		LinkSqlLite("./linkTree.sqlite")
+	default:
+	}
 	// 判断数据库的使用类型 sqlite and mysql
-	if viper.GetString("persistence.db-type") == "mysql" {
+	if global.Config.GetString("persistence.db-type") == "mysql" {
 		// 使用mysql
-		global.GLOG.Info("\t连接数据库:mysql")
+		global.GLOG.Info("连接数据库:mysql")
 		global.DB = LinkMySql()
 	} else {
 		// 使用sqlite
-		global.GLOG.Info("\t连接数据库:sqlite")
+		global.GLOG.Info("连接数据库:sqlite")
 		global.DB = LinkSqlLite("./linkTree.sqlite")
 	}
 	// 数据库迁徙
-	migration()
+	RegisterTables()
 }
 
 func LinkMySql() *gorm.DB {
@@ -54,9 +66,22 @@ func LinkSqlLite(path string) *gorm.DB {
 func Dsn() string {
 	// "username:password@tcp(ip:port)database_name?charset=utf8"
 	return fmt.Sprintf("%s:%s@(%s)/%s?charset=%s&parseTime=True&loc=Local",
-		viper.GetString("persistence.mysql.username"),
-		viper.GetString("persistence.mysql.password"),
-		viper.GetString("persistence.mysql.addr"),
-		viper.GetString("persistence.mysql.dataname"),
-		viper.GetString("persistence.mysql.charset"))
+		global.Config.GetString("persistence.mysql.username"),
+		global.Config.GetString("persistence.mysql.password"),
+		global.Config.GetString("persistence.mysql.addr"),
+		global.Config.GetString("persistence.mysql.dataname"),
+		global.Config.GetString("persistence.mysql.charset"))
+}
+
+func RegisterTables() {
+	// 自动迁移
+	err := global.DB.AutoMigrate(
+		&entity.Device{},
+		&entity.User{},
+		&entity.DeviceMsg{},
+	)
+	if err != nil {
+		global.GLOG.Error("表迁徙失败")
+		return
+	}
 }

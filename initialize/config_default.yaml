@@ -2,7 +2,7 @@ emqx:
   # 消息缓存 redis|kafka
   addr: 127.0.0.1:1883
   client: go-server
-  password: dl2002123
+  password: 1234567
   username: linktree
   cache-type: redis
 persistence:

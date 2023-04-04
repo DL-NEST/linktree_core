@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/spf13/viper"
 	"linktree_core/global"
 	"net/http"
 )
@@ -9,7 +8,7 @@ import (
 func StartServe() {
 	Router := MainRouter()
 	// 启动服务
-	port := viper.GetString("server.port")
+	port := global.Config.GetString("server.port")
 	srv := &http.Server{
 		Addr:    ":" + port,
 		Handler: Router,
@@ -24,7 +23,7 @@ func StartServe() {
 }
 
 func outInfo() string {
-	port := viper.GetString("server.port")
+	port := global.Config.GetString("server.port")
 	global.GLOG.Info("监听服务端口:" + port)
 	global.GLOG.Debug("服务启动成功: http://localhost:" + port)
 	global.GLOG.Debug("swag文档地址: http://localhost:" + port + "/swagger/index.html\n")

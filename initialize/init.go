@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"linktree_core/cmd/commands"
 	"linktree_core/global"
-	"linktree_core/modules/db"
-	"linktree_core/modules/redis"
 	"linktree_core/utils/pidFile"
 	"os"
 )
@@ -14,10 +12,10 @@ import (
 func InitApp() {
 	appInfo()
 	// 读取配置文件
-	readConfig()
+	InitConfig()
 	// 连接数据库和redis
-	db.InitDBLink()
-	redis.InitRedis()
+	InitDBLink()
+	InitRedis()
 }
 
 // 输出应用信息检测版本更新

@@ -24,7 +24,6 @@ func (userService) Login(request request.LoginRequest) (error, entity.User, stri
 	if crypto.Md5V1(user.Password) != request.Password {
 		return errors.New("密码错误"), user, ""
 	}
-
 	// 签发token
 	j := jwt.NewJWT()
 	token, err := j.CreateToken(j.CreateClaims(jwt.BaseClaims{
@@ -37,6 +36,8 @@ func (userService) Login(request request.LoginRequest) (error, entity.User, stri
 	if err != nil {
 		return err, user, ""
 	}
+	// 存入redis登录列表key(userid)-value(list<json>)
+
 	return nil, user, token
 
 }
